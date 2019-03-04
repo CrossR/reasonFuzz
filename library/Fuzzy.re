@@ -5,28 +5,9 @@ Differences:
 
 */
 
-let debug = false;
+open Helpers;
+open Types;
 
-let consoleLog = (str: string) => {
-  if (debug) {
-    Console.log(str);
-  };
-}
-
-
-/*--------------------------------------------------------------------*/
-
-let reverseArray = (backwards: array('a)) => {
-  let forwards: ref(array('a)) = ref([||]);
-
-  for (i in Array.length(backwards) - 1 downto 0) {
-    forwards := Array.append(forwards^, [|backwards[i]|])
-  };
-
-  forwards^
-};
-
-/*--------------------------------------------------------------------*/
 let cheapMatches = (line: string, pattern: string) => {
     let lineIndex = ref(0);
     let patternIndex = ref(0);
@@ -46,8 +27,6 @@ let cheapMatches = (line: string, pattern: string) => {
     patternIndex^ != String.length(pattern) - 1
 };
 
-/* Score building / checking -------------------------------------------*/
-
 let allowMatch = (pChar: Char.t, lChar: Char.t) => {
     Char.lowercase_ascii(lChar) == Char.lowercase_ascii(pChar)
 };
@@ -55,51 +34,6 @@ let allowMatch = (pChar: Char.t, lChar: Char.t) => {
 let adjustScore = (score: int, lineLen: int) => {
   score - (float_of_int(lineLen + 1) |> log |> floor |> int_of_float)
 };
-
-module Action = {
-
-  type t =
-    | Miss
-    | Match;
-
-};
-
-module CharType = {
-
-  type t =
-    | NoChar
-    | Upper
-    | Separ
-    | Other;
-
-  let charTypeOf = (char: option(Char.t)) => {
-      switch(char) {
-      | None => NoChar
-      | Some(charT) => switch(charT) {
-        | 'A' .. 'Z' => Upper
-        | ' ' | '_' | '-' | '/' | '\\' => Separ
-        | _ => Other
-        };
-      };
-  };
-
-};
-
-module CharRole = {
-
-  type t = 
-    | Tail
-    | Head;
-
-  let charRole = (prev: option(Char.t), current: option(Char.t)) => {
-    switch(CharType.charTypeOf(prev), CharType.charTypeOf(current)) {
-    | (CharType.NoChar, CharType.Other) | (CharType.NoChar, CharType.Upper) | (CharType.Other, CharType.Upper) | (CharType.Separ, CharType.Other) | (CharType.Separ, CharType.Upper) => Head
-    | _ => Tail
-    };
-  };
-
-};
-
 
 let matchBonus = (pId: int, pChar: Char.t, pPrevChar: option(Char.t), lId: int, lChar: Char.t, lPrevChar: option(Char.t), lastAction: Action.t) => {
     let score = ref(10);
@@ -156,24 +90,6 @@ let skipPenalty = (_cId: int, char: Char.t, lastAction: Action.t) => {
   };
 
   score^
-};
-
-module Score = {
-
-  type t = {
-    lastActionMiss: ref(Action.t),
-    lastActionMatch: ref(Action.t),
-    missScore: ref(int),
-    matchScore: ref(int)
-  };
-
-  let default: t = {
-    lastActionMiss: ref(Action.Miss),
-    lastActionMatch: ref(Action.Miss),
-    missScore: ref(min_int),
-    matchScore: ref(min_int)
-  };
-
 };
 
 /*--------------------------------------------------------------------*/
@@ -306,8 +222,6 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
 
 };
 
-/*--------------------------------------------------------------------*/
-
 let fuzzyIndiciesMatch = (line: string, pattern: string) => {
 
   let lineLen = String.length(line);
@@ -369,8 +283,6 @@ let fuzzyMatchMatch = (line: string, pattern: string) => {
   Some(adjustScore(score, lineLen))
 };
 
-/*--------------------------------------------------------------------*/
-
 let fuzzyIndicies = (line: string, pattern: string): option((int, array(int))) => {
 
     switch (cheapMatches(line, pattern)) {
@@ -388,5 +300,3 @@ let fuzzyMatch = (line: string, pattern: string) => {
     };
 
 };
-
-/*--------------------------------------------------------------------*/
