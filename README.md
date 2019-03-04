@@ -1,7 +1,7 @@
 # reason-fuzzy-matching
 
 
-[![CircleCI](https://circleci.com/gh/yourgithubhandle/reason-logger/tree/master.svg?style=svg)](https://circleci.com/gh/yourgithubhandle/reason-logger/tree/master)
+[![Build Status](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_apis/build/status/CrossR.reasonFuzzyMatching?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_build/latest?definitionId=2&branchName=master)
 
 
 **Contains the following libraries and executables:**
