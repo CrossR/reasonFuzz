@@ -18,7 +18,7 @@ steps:
     displayName: 'esy build'
   - script: esy test
     displayName: 'esy test'
-  - script: esy x reasonFuzzyMatching.exe
+  - script: esy x ReasonFuzzyMatching.exe
     displayName: 'Run the main binary'
   - script: esy ls-libs
     continueOnError: true
