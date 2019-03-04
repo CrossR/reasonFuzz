@@ -15,7 +15,7 @@
     "library": {
       "name": "reason-fuzzy-matching.lib",
       "namespace": "ReasonFuzzyMatching",
-      "require": [ ]
+      "require": ["console.lib"]
     },
     "executable": {
       "require": [ "reason-fuzzy-matching.lib" ],
@@ -30,6 +30,7 @@
   "dependencies": {
     "@esy-ocaml/reason": "*",
     "@opam/dune": ">=1.6.0",
+    "@reason-native/console": "^0.0.3",
     "ocaml": "^4.7.0",
     "pesy": "*",
     "refmterr": "*"
