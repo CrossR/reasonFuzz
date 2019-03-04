@@ -20,9 +20,6 @@ steps:
     displayName: 'esy test'
   - script: esy x ReasonFuzzyMatching.exe
     displayName: 'Run the main binary'
-  - script: esy ls-libs
-    continueOnError: true
-    displayName: 'Show all libraries including this package lib'
-  - script: esy release
-    displayName: 'Test Creation of Prebuilt Binary Releases'
-    continueOnError: true
+  # - script: esy release
+  #   displayName: 'Test Creation of Prebuilt Binary Releases'
+  #   continueOnError: true
