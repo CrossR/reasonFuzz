@@ -10,20 +10,13 @@ module IndexMatchResult = {
     indicies: array(int),
   };
 
-  let create = (score: int, indicies: array(int)) => {
-    score,
-    indicies
-  };
+  let create = (score: int, indicies: array(int)) => {score, indicies};
 };
 
 module MatchResult = {
-  type t = {
-    score: int,
-  };
+  type t = {score: int};
 
-  let create = (score: int) => {
-    score: score
-  };
+  let create = (score: int) => {score: score};
 };
 
 let awfulScore = (-4000000000000000000);

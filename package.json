@@ -10,7 +10,8 @@
     ]
   },
   "scripts": {
-    "test": "esy x RunTests"
+    "test": "esy x RunTests",
+    "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {
     "@esy-ocaml/reason": "*",

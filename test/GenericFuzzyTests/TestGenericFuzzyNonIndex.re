@@ -12,7 +12,6 @@ describe("Scores should be correct", ({test, _}) => {
   });
 
   test("Better match is picked", ({expect}) => {
-
     let result1 = ReasonFuzzyMatching.Fuzzy.fuzzyMatch("abcxyz", "abc");
     let result2 = ReasonFuzzyMatching.Fuzzy.fuzzyMatch("abcxyz", "acz");
 
@@ -21,18 +20,19 @@ describe("Scores should be correct", ({test, _}) => {
 
     expect.notEqual(result1, result2);
 
-    let score1 = switch (result1) {
-    | Some(match) => match.score
-    | None => min_int
-    };
+    let score1 =
+      switch (result1) {
+      | Some(match) => match.score
+      | None => min_int
+      };
 
-    let score2 = switch (result2) {
-    | Some(match) => match.score
-    | None => min_int
-    };
+    let score2 =
+      switch (result2) {
+      | Some(match) => match.score
+      | None => min_int
+      };
 
     expect.equal(score1 > score2, true);
-
   });
 
   test("Doesn't match index when not possible", ({expect}) => {
@@ -48,15 +48,15 @@ describe("Scores should be correct", ({test, _}) => {
   test("Index match is correct", ({expect}) => {
     let result = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("axbycz", "abc");
 
-    let matches = switch (result) {
-    | Some(match) => match.indicies
-    | None => [||]
-    };
+    let matches =
+      switch (result) {
+      | Some(match) => match.indicies
+      | None => [||]
+      };
     expect.equal(matches, [|0, 2, 4|]);
   });
 
   test("Better match is picked", ({expect}) => {
-
     let result1 = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("abcxyz", "abc");
     let result2 = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("abcxyz", "acz");
 
@@ -65,17 +65,18 @@ describe("Scores should be correct", ({test, _}) => {
 
     expect.notEqual(result1, result2);
 
-    let score1 = switch (result1) {
-    | Some(match) => match.score
-    | None => min_int
-    };
+    let score1 =
+      switch (result1) {
+      | Some(match) => match.score
+      | None => min_int
+      };
 
-    let score2 = switch (result2) {
-    | Some(match) => match.score
-    | None => min_int
-    };
+    let score2 =
+      switch (result2) {
+      | Some(match) => match.score
+      | None => min_int
+      };
 
     expect.equal(score1 > score2, true);
-
   });
 });

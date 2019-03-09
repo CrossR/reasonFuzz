@@ -5,7 +5,6 @@
 
  */
 
-open Helpers;
 open Types;
 
 let cheapMatches = (line: string, pattern: string) => {
@@ -286,7 +285,7 @@ let fuzzyIndiciesMatch = (line: string, pattern: string) => {
     };
   };
 
-  indiciesReversed := reverseArray(indiciesReversed^);
+  indiciesReversed := Helpers.reverseArray(indiciesReversed^);
 
   Some(
     IndexMatchResult.create(adjustScore(score^, lineLen), indiciesReversed^),
