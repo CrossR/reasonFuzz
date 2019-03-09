@@ -2,14 +2,6 @@
  * Helpers.re
  */
 
-let debug = false;
-
-let consoleLog = (str: string) => {
-  if (debug) {
-    Console.log(str);
-  };
-}
-
 let reverseArray = (backwards: array('a)) => {
   let forwards: ref(array('a)) = ref([||]);
 
