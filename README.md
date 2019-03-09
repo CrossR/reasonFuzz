@@ -1,4 +1,4 @@
-# reason-fuzzy-matching
+# ReasonFuzz
 
 [![Build Status](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_apis/build/status/CrossR.reasonFuzzyMatching?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_build/latest?definitionId=2&branchName=master)
 
@@ -14,15 +14,15 @@ TODO:
 **Contains the following libraries and executables:**
 
 ```
-reason-fuzzy-matching@0.0.0
+ReasonFuzz@0.0.0
 │
 ├─test/
 │   name:    RunTests.exe
 │   main:    RunTests.re
-│   require: reason-fuzzy-matching.lib
+│   require: ReasonFuzz
 │
 └─library/
-    library name: reason-fuzzy-matching.lib
+    library name: ReasonFuzz
     namespace:    ReasonFuzzyMatching
 ```
 

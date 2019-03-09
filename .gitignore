@@ -6,6 +6,5 @@ node_modules/
 _build
 _release
 _esy/
-reason-fuzzy-matching.install
 .DS_Store
 *.install

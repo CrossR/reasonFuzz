@@ -1,11 +1,11 @@
 {
-  "name": "reason-fuzzy-matching",
+  "name": "ReasonFuzzz",
   "version": "0.0.1",
   "description": "Fuzzy string matching for ReasonML.",
   "esy": {
     "build": "refmterr dune build --root . -j4",
     "install": [
-      "esy-installer reason-fuzzy-matching.install",
+      "esy-installer Matchers.install",
       "esy-installer RunTests.install"
     ]
   },

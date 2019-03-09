@@ -1,5 +1,5 @@
 (library
-   (name ReasonFuzzyMatching)
-   (public_name reason-fuzzy-matching.lib)
-   (libraries console.lib)
+   (name ReasonFuzz)
+   (public_name ReasonFuzz)
+   (libraries Matchers)
 )
