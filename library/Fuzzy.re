@@ -102,7 +102,7 @@ let skipPenalty = (_cId: int, char: Char.t, lastAction: Action.t) => {
 
 /*--------------------------------------------------------------------*/
 
-let debugDp = (line: string, pattern: string, dp: array(array(Score.t))) => {
+let _debugDp = (line: string, pattern: string, dp: array(array(Score.t))) => {
   let lineLen = String.length(line);
   let patternLen = String.length(pattern);
 
@@ -304,10 +304,10 @@ let fuzzyMatchMatch = (line: string, pattern: string) => {
   Some(MatchResult.create(adjustScore(score, lineLen)));
 };
 
-let fuzzyIndicies = (line: string, pattern: string) => {
+let fuzzyIndicies = (~line: string, ~pattern: string) => {
   cheapMatches(line, pattern) ? fuzzyIndiciesMatch(line, pattern) : None;
 };
 
-let fuzzyMatch = (line: string, pattern: string) => {
+let fuzzyMatch = (~line: string, ~pattern: string) => {
   cheapMatches(line, pattern) ? fuzzyMatchMatch(line, pattern) : None;
 };

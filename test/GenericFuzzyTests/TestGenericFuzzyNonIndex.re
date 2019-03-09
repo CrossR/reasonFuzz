@@ -1,19 +1,23 @@
 open TestFramework;
 
-describe("Scores should be correct", ({test, _}) => {
+describe("Fuzzy match scores should be correct", ({test, _}) => {
   test("Doesn't match when not possible", ({expect}) => {
-    let result = ReasonFuzzyMatching.Fuzzy.fuzzyMatch("abc", "abx");
+    let result =
+      ReasonFuzzyMatching.Fuzzy.fuzzyMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect}) => {
-    let result = ReasonFuzzyMatching.Fuzzy.fuzzyMatch("axbycz", "abc");
+    let result =
+      ReasonFuzzyMatching.Fuzzy.fuzzyMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
   test("Better match is picked", ({expect}) => {
-    let result1 = ReasonFuzzyMatching.Fuzzy.fuzzyMatch("abcxyz", "abc");
-    let result2 = ReasonFuzzyMatching.Fuzzy.fuzzyMatch("abcxyz", "acz");
+    let result1 =
+      ReasonFuzzyMatching.Fuzzy.fuzzyMatch(~line="abcxyz", ~pattern="abc");
+    let result2 =
+      ReasonFuzzyMatching.Fuzzy.fuzzyMatch(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
@@ -34,19 +38,24 @@ describe("Scores should be correct", ({test, _}) => {
 
     expect.equal(score1 > score2, true);
   });
+});
 
+describe("Index match scores should be correct", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect}) => {
-    let result = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("abc", "abx");
+    let result =
+      ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect}) => {
-    let result = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("axbycz", "abc");
+    let result =
+      ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
   test("Index match is correct", ({expect}) => {
-    let result = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("axbycz", "abc");
+    let result =
+      ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(~line="axbycz", ~pattern="abc");
 
     let matches =
       switch (result) {
@@ -56,9 +65,64 @@ describe("Scores should be correct", ({test, _}) => {
     expect.equal(matches, [|0, 2, 4|]);
   });
 
+  test("Work for large input", ({expect}) => {
+    let bestMatch = ref("");
+    let bestScore = ref(0);
+
+    for (i in 0 to Array.length(TestArray.testInput) - 1) {
+      let result =
+        ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(
+          ~line=TestArray.testInput[i],
+          ~pattern="quickOpenScore",
+        );
+
+      let score =
+        switch (result) {
+        | Some(match) => match.score
+        | None => (-1)
+        };
+
+      if (score > bestScore^) {
+        bestMatch := TestArray.testInput[i];
+      };
+    };
+
+    expect.equal(
+      bestMatch^,
+      "./src/vs/base/parts/quickopen/test/common/quickOpenScorer.test.ts",
+    );
+  });
+
+  test("Work for even larger input", ({expect}) => {
+    let bestMatch = ref("");
+    let bestScore = ref(0);
+
+    for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
+      let result =
+        ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(
+          ~line=TestArray.linuxTest[i],
+          ~pattern="gpio-regulator",
+        );
+
+      let score =
+        switch (result) {
+        | Some(match) => match.score
+        | None => (-1)
+        };
+
+      if (score > bestScore^) {
+        bestMatch := TestArray.linuxTest[i];
+      };
+    };
+
+    expect.equal(bestMatch^, "./include/linux/regulator/gpio-regulator.h");
+  });
+
   test("Better match is picked", ({expect}) => {
-    let result1 = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("abcxyz", "abc");
-    let result2 = ReasonFuzzyMatching.Fuzzy.fuzzyIndicies("abcxyz", "acz");
+    let result1 =
+      ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(~line="abcxyz", ~pattern="abc");
+    let result2 =
+      ReasonFuzzyMatching.Fuzzy.fuzzyIndicies(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
