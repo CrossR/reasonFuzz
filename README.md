@@ -1,5 +1,8 @@
 # reason-fuzzy-matching
 
+[![Build Status](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_apis/build/status/CrossR.reasonFuzzyMatching?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_build/latest?definitionId=2&branchName=master)
+
+
 Fuzzy matching algorithms in Reason, based on https://github.com/lotabout/fuzzy-matcher.
 
 TODO:
@@ -7,9 +10,6 @@ TODO:
   - [ ] : Check performance and compare scores
  - [ ] : Path Specific matcher
   - [ ] : Check performance and compare scores
-
-[![Build Status](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_apis/build/status/CrossR.reasonFuzzyMatching?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_build/latest?definitionId=2&branchName=master)
-
 
 **Contains the following libraries and executables:**
 
