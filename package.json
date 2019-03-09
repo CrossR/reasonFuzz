@@ -1,5 +1,5 @@
 {
-  "name": "ReasonFuzzz",
+  "name": "reasonfuzz",
   "version": "0.0.1",
   "description": "Fuzzy string matching for ReasonML.",
   "esy": {

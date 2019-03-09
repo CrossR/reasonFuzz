@@ -1,6 +1,6 @@
 {
   "checksum": "dcfccb8c91e4eb5d394b133b392b2480",
-  "root": "reason-fuzzy-matching@link-dev:./package.json",
+  "root": "reasonfuzz@link-dev:./package.json",
   "node": {
     "refmterr@3.1.10@d41d8cd9": {
       "id": "refmterr@3.1.10@d41d8cd9",
@@ -19,9 +19,9 @@
       ],
       "devDependencies": []
     },
-    "reason-fuzzy-matching@link-dev:./package.json": {
-      "id": "reason-fuzzy-matching@link-dev:./package.json",
-      "name": "reason-fuzzy-matching",
+    "reasonfuzz@link-dev:./package.json": {
+      "id": "reasonfuzz@link-dev:./package.json",
+      "name": "reasonfuzz",
       "version": "link-dev:./package.json",
       "source": {
         "type": "link-dev",
