@@ -1,5 +1,12 @@
 # reason-fuzzy-matching
 
+Fuzzy matching algorithms in Reason, based on https://github.com/lotabout/fuzzy-matcher.
+
+TODO:
+ - [x] : Generic/ClangD Matcher
+  - [ ] : Check performance and compare scores
+ - [ ] : Path Specific matcher
+  - [ ] : Check performance and compare scores
 
 [![Build Status](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_apis/build/status/CrossR.reasonFuzzyMatching?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_build/latest?definitionId=2&branchName=master)
 
@@ -10,19 +17,13 @@
 reason-fuzzy-matching@0.0.0
 │
 ├─test/
-│   name:    TestReasonFuzzyMatching.exe
-│   main:    TestReasonFuzzyMatching.re
+│   name:    RunTests.exe
+│   main:    RunTests.re
 │   require: reason-fuzzy-matching.lib
 │
-├─library/
-│   library name: reason-fuzzy-matching.lib
-│   namespace:    ReasonFuzzyMatching
-│   require:
-│
-└─executable/
-    name:    ReasonFuzzyMatching.exe
-    main:    ReasonFuzzyMatching
-    require: reason-fuzzy-matching.lib
+└─library/
+    library name: reason-fuzzy-matching.lib
+    namespace:    ReasonFuzzyMatching
 ```
 
 ## Developing:
@@ -32,14 +33,6 @@ npm install -g esy
 git clone <this-repo>
 esy install
 esy build
-```
-
-## Running Binary:
-
-After building the project, you can run the main binary that is produced.
-
-```
-esy x ReasonFuzzyMatching.exe 
 ```
 
 ## Running Tests:
