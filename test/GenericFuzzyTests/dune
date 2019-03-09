@@ -1,0 +1,5 @@
+(library
+    (name Generic_Fuzzy_Test)
+    (library_flags (-linkall -g))
+    (modules (:standard))
+(libraries rely.lib reason-fuzzy-matching.lib))

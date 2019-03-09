@@ -4,37 +4,24 @@
   "description": "Fuzzy string matching for ReasonML.",
   "esy": {
     "build": "refmterr dune build --root . -j4",
-    "release": { "releasedBinaries": [ "ReasonFuzzyMatching.exe" ] }
-  },
-  "buildDirs": {
-    "test": {
-      "require": [ "reason-fuzzy-matching.lib" ],
-      "main": "TestReasonFuzzyMatching",
-      "name": "TestReasonFuzzyMatching.exe"
-    },
-    "library": {
-      "name": "reason-fuzzy-matching.lib",
-      "namespace": "ReasonFuzzyMatching",
-      "require": ["console.lib"]
-    },
-    "executable": {
-      "require": [ "reason-fuzzy-matching.lib" ],
-      "main": "ReasonFuzzyMatching",
-      "name": "ReasonFuzzyMatching.exe"
-    }
+    "install": [
+      "esy-installer reason-fuzzy-matching.install",
+      "esy-installer RunTests.install"
+    ]
   },
   "scripts": {
-    "pesy": "bash -c 'env PESY_MODE=update pesy'",
-    "test": "esy x TestReasonFuzzyMatching.exe",
-    "run": "esy x ReasonFuzzyMatching.exe"
+    "test": "esy x RunTests"
   },
   "dependencies": {
     "@esy-ocaml/reason": "*",
     "@opam/dune": ">=1.6.0",
     "@reason-native/console": "^0.0.3",
+    "@reason-native/rely": "^1.2.0",
     "ocaml": "^4.7.0",
     "pesy": "*",
     "refmterr": "*"
   },
-  "devDependencies": { "@opam/merlin": "*" }
+  "devDependencies": {
+    "@opam/merlin": "*"
+  }
 }

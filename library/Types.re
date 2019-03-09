@@ -10,7 +10,7 @@ module IndexMatchResult = {
     indicies: array(int),
   };
 
-  let create = (score, indicies) => {
+  let create = (score: int, indicies: array(int)) => {
     score,
     indicies
   };
@@ -21,8 +21,8 @@ module MatchResult = {
     score: int,
   };
 
-  let create = (score) => {
-    score
+  let create = (score: int) => {
+    score: score
   };
 };
 

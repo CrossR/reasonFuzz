@@ -1,0 +1,1 @@
+Generic_Fuzzy_Test.TestFramework.cli();
