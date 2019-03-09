@@ -4,10 +4,25 @@
 
 /*--------------------------- Default Matcher ------------------------------*/
 
-module IndexMatch = {
+module IndexMatchResult = {
   type t = {
     score: int,
     indicies: array(int),
+  };
+
+  let create = (score, indicies) => {
+    score,
+    indicies
+  };
+};
+
+module MatchResult = {
+  type t = {
+    score: int,
+  };
+
+  let create = (score) => {
+    score
   };
 };
 

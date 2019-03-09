@@ -288,7 +288,9 @@ let fuzzyIndiciesMatch = (line: string, pattern: string) => {
 
   indiciesReversed := reverseArray(indiciesReversed^);
 
-  Some((adjustScore(score^, lineLen), indiciesReversed^));
+  Some(
+    IndexMatchResult.create(adjustScore(score^, lineLen), indiciesReversed^),
+  );
 };
 
 let fuzzyMatchMatch = (line: string, pattern: string) => {
@@ -300,11 +302,10 @@ let fuzzyMatchMatch = (line: string, pattern: string) => {
   let cell = dp[patternLen land 1][lineLen];
   let score = max(cell.matchScore^, cell.missScore^);
 
-  Some(adjustScore(score, lineLen));
+  Some(MatchResult.create(adjustScore(score, lineLen)));
 };
 
-let fuzzyIndicies =
-    (line: string, pattern: string): option((int, array(int))) => {
+let fuzzyIndicies = (line: string, pattern: string) => {
   cheapMatches(line, pattern) ? fuzzyIndiciesMatch(line, pattern) : None;
 };
 
