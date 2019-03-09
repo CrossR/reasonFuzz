@@ -42,36 +42,43 @@ let matchBonus = (pId: int, pChar: Char.t, pPrevChar: option(Char.t), lId: int, 
 
     /* Pattern is a case-insensitive prefix of word */
     if (pId == lId) {
+      consoleLog("      B: 1");
       score := score^ + 10;
     };
 
     /* Case match */
     if (pChar == lChar) {
+      consoleLog("      B: 2");
       score := score^ + 8;
     };
 
     /* Header match */
     if (lineRole == CharRole.Head) {
+      consoleLog("      B: 3");
       score := score^ + 9;
     };
 
     /* Head match aligns */
     if (lineRole == CharRole.Head && patternRole == CharRole.Head) {
+      consoleLog("      B: 4");
       score := score^ + 10;
     };
 
     /* Penalty due to match in segment */
     if (lineRole == CharRole.Tail && pId > 0 && lastAction == Action.Miss) {
+      consoleLog("      B: 5");
       score := score^ - 30;
     };
 
     /* Penalty due to head pattern match in middle of word */
     if (lineRole == CharRole.Tail && patternRole == CharRole.Head) {
+      consoleLog("      B: 6");
       score := score^ - 10;
     };
 
     /* Penalty due to matching first char in middle */
     if (pId == 0 && lineRole == CharRole.Tail) {
+      consoleLog("      B: 7");
       score := score^ + 10;
     };
 
@@ -104,9 +111,9 @@ let debugDp = (line: string, pattern: string, dp: array(array(Score.t))) => {
     Console.out("\t\t" ++ string_of_int(id + 1) ++ "/" ++ String.make(1, ch));
   };
 
-  for (row in 0 to patternLen - 1) {
+  for (row in 0 to patternLen) {
     Console.out("\n" ++ string_of_int(row) ++ "\t");
-    for (col in 0 to lineLen - 1) {
+    for (col in 0 to lineLen) {
       let cell = dp[row][col];
       let result1 = cell.lastActionMiss^ == Action.Miss ? "X" : "O";
       let result2 = cell.lastActionMatch^ == Action.Miss ? "X" : "O";
@@ -120,14 +127,25 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
 
   let lineLen = String.length(line);
   let patternLen = String.length(pattern);
-  consoleLog("Line len is " ++ string_of_int(lineLen));
-  consoleLog("Pattern len is " ++ string_of_int(patternLen));
 
   let maxRows = compressed ? 2 : patternLen + 1;
 
-  let dp: array(array(Score.t)) = Array.make(maxRows, Array.make(lineLen + 1, Score.default));
+  consoleLog("Line len is " ++ string_of_int(lineLen));
+  consoleLog("Pattern len is " ++ string_of_int(patternLen));
+  consoleLog("Max rows is " ++ string_of_int(maxRows));
 
-  dp[0][0].missScore := 0;
+  let dp: array(array(Score.t)) = Score.matrixOfDefault(maxRows, lineLen);
+
+  /* Awkward syntax here until I get time to work out the cleaner way of doing this
+  The main issue is having changes propagated to the whole matrix*/
+  let zeroedResult: Score.t = {
+    lastActionMiss: ref(Action.Miss),
+    lastActionMatch: ref(Action.Miss),
+    missScore: ref(0),
+    matchScore: ref(awfulScore)
+  };
+
+  dp[0][0] = zeroedResult;
 
   for (id in 0 to lineLen - 1) {
     let char = line.[id];
@@ -135,7 +153,7 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
     let result: Score.t = {
       missScore: ref(dp[0][id].missScore^ - skipPenalty(id, char, Action.Miss)),
       lastActionMiss: ref(Action.Miss),
-      matchScore: ref(min_int),
+      matchScore: ref(awfulScore),
       lastActionMatch: ref(Action.Miss),
     };
 
@@ -152,22 +170,30 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
 
     let currentRowId = compressed ? (pId + 1) land 1 : pId + 1;
     let prevRowId = compressed ? pId land 1 : pId;
+    consoleLog("currentRowId: " ++ string_of_int(currentRowId));
+    consoleLog("prevRowId: " ++ string_of_int(prevRowId));
 
     let lPrevChar: ref(option(Char.t)) = ref(None)
     for (lId in 0 to lineLen - 1) {
-      consoleLog("lId: " ++ string_of_int(lId));
+      consoleLog("  Inner loop...");
+      consoleLog("    lId: " ++ string_of_int(lId));
       let lChar = line.[lId];
-      consoleLog("lChar: " ++ String.make(1, lChar));
+      consoleLog("    lChar: " ++ String.make(1, lChar));
 
       if (lId < pId) {
         lPrevChar := Some(lChar);
       } else {
-        consoleLog("Getting prevMiss...");
+        consoleLog("    Getting prevMiss...");
         let prevMiss = dp[currentRowId][lId];
 
-        if (pId < patternLen) {
+        if (pId < patternLen - 1) {
+          consoleLog("      Adding penalty!");
+          consoleLog("      matchScore before: " ++ string_of_int(prevMiss.matchScore^));
+          consoleLog("      missScore before: " ++ string_of_int(prevMiss.missScore^));
           prevMiss.matchScore := prevMiss.matchScore^ - skipPenalty(lId, lChar, Action.Match);
           prevMiss.missScore := prevMiss.missScore^ - skipPenalty(lId, lChar, Action.Miss);
+          consoleLog("      matchScore after: " ++ string_of_int(prevMiss.matchScore^));
+          consoleLog("      missScore after: " ++ string_of_int(prevMiss.missScore^));
         };
 
         let (missScore, lastActionMiss) = if (prevMiss.matchScore^ > prevMiss.missScore^) {
@@ -175,47 +201,55 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
         } else {
           (prevMiss.missScore, Action.Miss)
         };
+        consoleLog("    Miss score: " ++ string_of_int(missScore^));
 
-        consoleLog("Getting prevMatch...");
+        consoleLog("    Getting prevMatch, " ++ string_of_int(prevRowId) ++ "," ++ string_of_int(lId));
         let preMatch = dp[prevRowId][lId];
         let matchMatchScore = if (allowMatch(pChar, lChar)) {
+          consoleLog("    Picked prev matchMatch: " ++ string_of_int(preMatch.matchScore^));
           preMatch.matchScore^ + matchBonus(pId, pChar, pPrevChar^, lId, lChar, lPrevChar^, Action.Match)
         } else {
-          min_int
+          awfulScore
         };
+        consoleLog("    matchMatch score: " ++ string_of_int(matchMatchScore));
 
         let missMatchScore = if (allowMatch(pChar, lChar)) {
+          consoleLog("    Picked prev missMatch: " ++ string_of_int(preMatch.missScore^));
           preMatch.missScore^ + matchBonus(pId, pChar, pPrevChar^, lId, lChar, lPrevChar^, Action.Match)
         } else {
-          min_int
+          awfulScore
         };
+        consoleLog("    missMatch score: " ++ string_of_int(missMatchScore));
 
         let (matchScore, lastActionMatch) = if (matchMatchScore > missMatchScore) {
           (matchMatchScore, Action.Match)
         } else {
           (missMatchScore, Action.Miss)
         };
+        consoleLog("    Match score: " ++ string_of_int(matchScore));
 
-        consoleLog("Making result...");
+        consoleLog("    Making result...");
         let result: Score.t = {
-          missScore: missScore, /* Already a ref from the prev score */
+          missScore: ref(missScore^),
           lastActionMiss: ref(lastActionMiss),
           matchScore: ref(matchScore),
           lastActionMatch: ref(lastActionMatch),
         };
 
-        consoleLog("Setting result...");
+        consoleLog("    Setting result, " ++ string_of_int(currentRowId) ++ "," ++ string_of_int(lId + 1));
         dp[currentRowId][lId + 1] = result;
 
-        consoleLog("Updating prev char...");
+        consoleLog("    Updating line prev char: " ++ String.make(1, lChar));
         lPrevChar := Some(lChar);
 
-        consoleLog("Inner loop iter done!");
+        consoleLog("  Inner loop iter done!");
       };
-
-      consoleLog("Outer loop iter done!");
-      pPrevChar := Some(pChar);
     };
+
+    consoleLog("Updating pat prev char: " ++ String.make(1, pChar));
+    pPrevChar := Some(pChar);
+
+    consoleLog("Outer loop iter done!");
   };
 
   dp
@@ -254,7 +288,7 @@ let fuzzyIndiciesMatch = (line: string, pattern: string) => {
     consoleLog("R: " ++ string_of_int(row^) ++ ", C: " ++ string_of_int(col^));
 
     if (lastAction^ == Action.Match) {
-      indiciesReversed := Array.append(indiciesReversed^, [|col^|]);
+      indiciesReversed := Array.append(indiciesReversed^, [|col^ - 1|]);
       lastAction := cell.lastActionMatch^;
       row := row^ - 1;
       col := col^ - 1;

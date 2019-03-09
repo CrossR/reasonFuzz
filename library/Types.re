@@ -4,6 +4,15 @@
 
 /*--------------------------- Default Matcher ------------------------------*/
 
+module IndexMatch = {
+  type t = {
+    score: int,
+    indicies: array(int),
+  };
+};
+
+let awfulScore = -4000000000000000000;
+
 module Action = {
 
   type t =
@@ -60,8 +69,22 @@ module Score = {
   let default: t = {
     lastActionMiss: ref(Action.Miss),
     lastActionMatch: ref(Action.Miss),
-    missScore: ref(min_int),
-    matchScore: ref(min_int)
+    missScore: ref(awfulScore),
+    matchScore: ref(awfulScore)
+  };
+
+  let getDefault = (_: int) => {default}
+
+  let arrayOfDefault = (_:int, ~lineLen: int) => {
+    let array = Array.init(lineLen + 1, getDefault);
+
+    array
+  };
+
+  let matrixOfDefault = (maxRows, lineLen) => {
+    let matrix = Array.init(maxRows, arrayOfDefault(~lineLen=lineLen));
+
+    matrix
   };
 
 };
