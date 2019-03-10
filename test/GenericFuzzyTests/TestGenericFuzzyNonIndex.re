@@ -1,6 +1,6 @@
 open TestFramework;
 
-describe("Fuzzy match scores should be correct", ({test, _}) => {
+describe("General Fuzzy match scores should be correct.", ({test, _}) => {
   test("Doesn't match when not possible", ({expect}) => {
     let result = ReasonFuzz.generalFuzzyMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
