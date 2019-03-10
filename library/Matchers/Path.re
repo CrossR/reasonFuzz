@@ -109,7 +109,7 @@ let buildGraph = (line: string, pattern: string) => {
   /* Initialise the match positions and inline scores. */
   let pId = ref(0);
   while (pId^ <= patternLen - 1 && validMatch^) {
-    Console.log("  First while loop iteration starting...")
+    Console.log("  First while loop iteration starting...");
     let pChar = Char.lowercase_ascii(pattern.[pId^]);
     Console.log("  pId: " ++ string_of_int(pId^));
     Console.log("  pChar: " ++ String.make(1, pChar));
@@ -119,7 +119,7 @@ let buildGraph = (line: string, pattern: string) => {
 
     let lId = ref(0);
     while (lId^ <= lineLen - 1 && validMatch^) {
-      Console.log("    First inner while loop iteration starting...")
+      Console.log("    First inner while loop iteration starting...");
       let lChar = Char.lowercase_ascii(line.[lId^]);
       Console.log("    lId: " ++ string_of_int(lId^));
       Console.log("    lChar: " ++ String.make(1, lChar));
@@ -141,7 +141,7 @@ let buildGraph = (line: string, pattern: string) => {
 
       lPrevChar := Some(lChar);
       lId := lId^ + 1;
-      Console.log("    First inner while loop iteration ending...")
+      Console.log("    First inner while loop iteration ending...");
     };
 
     if (Array.length(statuses^) == 0) {
@@ -155,7 +155,7 @@ let buildGraph = (line: string, pattern: string) => {
 
     pId := pId^ + 1;
 
-    Console.log("  First while loop iteration ending...")
+    Console.log("  First while loop iteration ending...");
   };
   Console.log("Finished first while loop...");
 
@@ -169,7 +169,10 @@ let buildGraph = (line: string, pattern: string) => {
     let previousRow = firstHalf[Array.length(firstHalf) - 1];
     let currentRow = lastHalf[0];
 
-    Console.log("  Starting inner for loop from 0 to " ++ string_of_int(Array.length(currentRow) - 1));
+    Console.log(
+      "  Starting inner for loop from 0 to "
+      ++ string_of_int(Array.length(currentRow) - 1),
+    );
     Console.log(currentRow);
     for (index in 0 to Array.length(currentRow) - 1) {
       Console.log("    Second inner for loop iteration starting...");
@@ -187,11 +190,14 @@ let buildGraph = (line: string, pattern: string) => {
         scoreBeforeIndex :=
           scoreBeforeIndex^ - PathScore.default.bonusAdjacency;
       };
-      Console.log("    scoreBeforeIndex: " ++ string_of_int(scoreBeforeIndex^));
+      Console.log(
+        "    scoreBeforeIndex: " ++ string_of_int(scoreBeforeIndex^),
+      );
 
       let result =
         Array.mapi(
-          (index, item) => dealWithScoreRow(index, item, next, prev, scoreBeforeIndex^),
+          (index, item) =>
+            dealWithScoreRow(index, item, next, prev, scoreBeforeIndex^),
           previousRow,
         );
       Array.fast_sort(compareTwoScoreTuples, result);
@@ -230,9 +236,10 @@ let buildGraph = (line: string, pattern: string) => {
 
   Console.log("Returning score...");
   if (validMatch^ == false) {
-    None;
+    [||];
   } else {
-    Some(scores^);
+    Console.log(scores^);
+    scores^;
   };
 };
 
@@ -244,24 +251,51 @@ let compareMatchingStatus =
 };
 
 let getBestScore = (scoresArray: array(MatchingStatus.t)) => {
-  Array.fast_sort(compareMatchingStatus, scoresArray)
-  scoresArray[0].finalScore
+  Array.fast_sort(compareMatchingStatus, scoresArray);
+  scoresArray[0].finalScore;
 };
 
-let fuzzyMatch = (~line: string, ~pattern: string) => {
+let fuzzyIndicies = (~line: string, ~pattern: string) =>
   if (String.length(pattern) == 0) {
-    None
+    None;
   } else {
     let scores = buildGraph(line, pattern);
 
-    let finalScore = switch(scores) {
-    | Some(scoreArray) => Some(getBestScore(scoreArray[Array.length(scoreArray) - 1]))
-    | None => None;
-    };
+    if (scores == [||]) {
+      None;
+    } else {
+      let finalScore = getBestScore(scores[Array.length(scores) - 1]);
+      let nextCol = ref(0);
+      Console.log("finalScore: " ++ string_of_int(finalScore));
+      Console.log("nextCol: " ++ string_of_int(nextCol^));
 
-    switch (finalScore) {
-    | None => None
-    | Some(score) => Some(MatchResult.create(score))
+      let picked = ref([||]);
+      let pId = ref(Array.length(scores) - 1);
+      while (pId^ >= 0) {
+        let status = scores[pId^][nextCol^];
+        nextCol := status.backRef;
+        picked := Array.append(picked^, [|status.index|]);
+        pId := pId^ - 1;
+      };
+
+      let indexes = Helpers.reverseArray(picked^);
+      Console.out("indexes: ");
+      Console.log(indexes);
+      Some(IndexMatchResult.create(finalScore, indexes));
     };
   };
-};
+
+let fuzzyMatch = (~line: string, ~pattern: string) =>
+  if (String.length(pattern) == 0) {
+    None;
+  } else {
+    let scores = buildGraph(line, pattern);
+
+    if (scores == [||]) {
+      None;
+    } else {
+      let finalScore = getBestScore(scores[Array.length(scores) - 1]);
+
+      Some(MatchResult.create(finalScore));
+    };
+  };
