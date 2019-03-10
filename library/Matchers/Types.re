@@ -31,6 +31,7 @@ module CharType = {
   type t =
     | NoChar
     | Upper
+    | Lower
     | Separ
     | Other;
 
@@ -40,6 +41,7 @@ module CharType = {
     | Some(charT) =>
       switch (charT) {
       | 'A'..'Z' => Upper
+      | 'a'..'z' => Lower
       | ' '
       | '_'
       | '-'
@@ -101,3 +103,39 @@ module Score = {
 };
 
 /*------------------------------ Path Matcher ------------------------------*/
+
+module PathScore = {
+  type t = {
+    bonusUpperMatch: int,
+    bonusAdjacency: int,
+    bonusSeparator: int,
+    bonusCamel: int,
+    penaltyCaseUnmatched: int,
+    penaltyLeading: int,
+    penaltyMaxLeading: int,
+    penaltyUnmatched: int,
+  };
+
+  let default: t = {
+    bonusUpperMatch: 10,
+    bonusAdjacency: 10,
+    bonusSeparator: 8,
+    bonusCamel: 8,
+    penaltyCaseUnmatched: (-1),
+    penaltyLeading: (-6),
+    penaltyMaxLeading: (-18),
+    penaltyUnmatched: (-2),
+  };
+};
+
+module MatchingStatus = {
+  type t = {
+    index: int,
+    score: int,
+    finalScore: int,
+    adjNum: int,
+    backRef: int,
+  };
+
+  let default: t = {index: 0, score: 0, finalScore: 0, adjNum: 1, backRef: 0};
+};

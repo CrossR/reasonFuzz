@@ -1,8 +1,6 @@
 /*
-
  Differences:
      - Allow_match doesn't use action.
-
  */
 
 open Types;

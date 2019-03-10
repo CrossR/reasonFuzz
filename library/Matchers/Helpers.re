@@ -11,3 +11,11 @@ let reverseArray = (backwards: array('a)) => {
 
   forwards^;
 };
+
+let splitArray = (inputArray: array('a), midPoint: int) => {
+
+  let firstHalf = Array.sub(inputArray, 0, midPoint);
+  let lastHalf = Array.sub(inputArray, midPoint, Array.length(inputArray));
+
+  (firstHalf, lastHalf)
+};
