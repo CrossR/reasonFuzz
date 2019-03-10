@@ -165,9 +165,19 @@ let buildGraph = (line: string, pattern: string) => {
     Console.log("  Second while loop iteration starting...");
     Console.log("  pId: " ++ string_of_int(pId^));
     let (firstHalf, lastHalf) = Helpers.splitArray(scores^, pId^);
+    Console.out("  scores: ");
+    Console.log(scores^);
+    Console.out("  firstHalf: ");
+    Console.log(firstHalf);
+    Console.out("  lastHalf: ");
+    Console.log(lastHalf);
 
     let previousRow = firstHalf[Array.length(firstHalf) - 1];
     let currentRow = lastHalf[0];
+    Console.out("  previousRow: ");
+    Console.log(previousRow);
+    Console.out("  currentRow: ");
+    Console.log(currentRow);
 
     Console.log(
       "  Starting inner for loop from 0 to "
