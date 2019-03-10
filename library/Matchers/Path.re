@@ -67,13 +67,19 @@ let dealWithScoreRow =
     ) =>
   if (current.index < next.index) {
     let adjNum = next.index - current.index - 1;
-    let finalScore = ref(current.score + next.score);
+    let finalScore = ref(current.finalScore + next.score);
+    Console.log("      adjNum: " ++ string_of_int(adjNum));
+    Console.log("      finalScore: " ++ string_of_int(finalScore^));
 
     if (adjNum == 0) {
+      Console.log("        bonusAdj");
       finalScore := finalScore^ + PathScore.default.bonusAdjacency;
     } else {
+      Console.log("        penaltyUnmatched");
       finalScore := finalScore^ + PathScore.default.penaltyUnmatched * adjNum;
     };
+
+    Console.log("      return finalScore: " ++ string_of_int(finalScore^));
 
     (index, finalScore^, adjNum);
   } else {
@@ -164,6 +170,7 @@ let buildGraph = (line: string, pattern: string) => {
     let currentRow = lastHalf[0];
 
     Console.log("  Starting inner for loop from 0 to " ++ string_of_int(Array.length(currentRow) - 1));
+    Console.log(currentRow);
     for (index in 0 to Array.length(currentRow) - 1) {
       Console.log("    Second inner for loop iteration starting...");
       let next = currentRow[index];
