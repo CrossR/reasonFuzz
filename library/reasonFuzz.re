@@ -11,3 +11,6 @@ let generalFuzzyMatch = Matchers.General.fuzzyMatch;
 
 /* General fuzzy matcher that will return both a score, and the match locations. */
 let generalIndexMatch = Matchers.General.fuzzyIndicies;
+
+/* General fuzzy matcher that will return just a score */
+let pathFuzzyMatch = Matchers.Path.fuzzyMatch;

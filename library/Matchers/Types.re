@@ -60,10 +60,10 @@ module CharRole = {
 
   let charRole = (prev: option(Char.t), current: option(Char.t)) => {
     switch (CharType.charTypeOf(prev), CharType.charTypeOf(current)) {
-    | (CharType.NoChar, CharType.Other)
+    | (CharType.NoChar, CharType.Lower)
     | (CharType.NoChar, CharType.Upper)
-    | (CharType.Other, CharType.Upper)
-    | (CharType.Separ, CharType.Other)
+    | (CharType.Lower, CharType.Upper)
+    | (CharType.Separ, CharType.Lower)
     | (CharType.Separ, CharType.Upper) => Head
     | _ => Tail
     };
@@ -135,6 +135,14 @@ module MatchingStatus = {
     finalScore: int,
     adjNum: int,
     backRef: int,
+  };
+
+  let create = (~index, ~score, ~finalScore, ~adjNum, ~backRef) => {
+    index,
+    score,
+    finalScore,
+    adjNum,
+    backRef,
   };
 
   let default: t = {index: 0, score: 0, finalScore: 0, adjNum: 1, backRef: 0};
