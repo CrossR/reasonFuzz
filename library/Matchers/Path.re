@@ -114,7 +114,7 @@ let buildGraph = (line: string, pattern: string) => {
     let lId = ref(0);
     while (lId^ <= lineLen - 1 && validMatch^) {
       Console.log("    First inner while loop iteration starting...")
-      let lChar = Char.lowercase_ascii(line.[pId^]);
+      let lChar = Char.lowercase_ascii(line.[lId^]);
       Console.log("    lId: " ++ string_of_int(lId^));
       Console.log("    lChar: " ++ String.make(1, lChar));
 
@@ -163,7 +163,8 @@ let buildGraph = (line: string, pattern: string) => {
     let previousRow = firstHalf[Array.length(firstHalf) - 1];
     let currentRow = lastHalf[0];
 
-    for (index in 1 to Array.length(currentRow) - 1) {
+    Console.log("  Starting inner for loop from 0 to " ++ string_of_int(Array.length(currentRow) - 1));
+    for (index in 0 to Array.length(currentRow) - 1) {
       Console.log("    Second inner for loop iteration starting...");
       let next = currentRow[index];
       let prev = index > 0 ? currentRow[index - 1] : MatchingStatus.default;
