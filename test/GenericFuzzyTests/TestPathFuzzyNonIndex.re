@@ -1,4 +1,4 @@
-/* open TestFramework;
+open TestFramework;
 
 describe("Path Fuzzy match scores should be correct.", ({test, _}) => {
   test("Doesn't match when not possible", ({expect}) => {
@@ -36,4 +36,4 @@ describe("Path Fuzzy match scores should be correct.", ({test, _}) => {
 
     expect.equal(score1 > score2, true);
   });
-}); */
+});
