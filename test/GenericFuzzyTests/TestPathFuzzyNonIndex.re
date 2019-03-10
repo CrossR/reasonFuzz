@@ -2,20 +2,20 @@ open TestFramework;
 
 describe("Fuzzy match scores should be correct", ({test, _}) => {
   test("Doesn't match when not possible", ({expect}) => {
-    let result = ReasonFuzz.generalFuzzyMatch(~line="abc", ~pattern="abx");
+    let result = ReasonFuzz.pathFuzzyMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect}) => {
-    let result = ReasonFuzz.generalFuzzyMatch(~line="axbycz", ~pattern="abc");
+    let result = ReasonFuzz.pathFuzzyMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
   test("Better match is picked", ({expect}) => {
     let result1 =
-      ReasonFuzz.generalFuzzyMatch(~line="abcxyz", ~pattern="abc");
+      ReasonFuzz.pathFuzzyMatch(~line="abcxyz", ~pattern="abc");
     let result2 =
-      ReasonFuzz.generalFuzzyMatch(~line="abcxyz", ~pattern="acz");
+      ReasonFuzz.pathFuzzyMatch(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
