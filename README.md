@@ -1,6 +1,6 @@
 # ReasonFuzz
 
-[![Build Status](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_apis/build/status/CrossR.reasonFuzzyMatching?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzzyMatching/_build/latest?definitionId=2&branchName=master)
+[![Build Status](https://dev.azure.com/CrossR-1/reasonFuzz/_apis/build/status/CrossR.reasonFuzz?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzz/_build/latest?definitionId=3&branchName=master)
 
 
 Fuzzy matching algorithms in Reason, based on https://github.com/lotabout/fuzzy-matcher.
@@ -23,7 +23,7 @@ ReasonFuzz@0.0.0
 │
 └─library/
     library name: ReasonFuzz
-    namespace:    ReasonFuzzyMatching
+    namespace:    ReasonFuzz
 ```
 
 ## Developing:
