@@ -91,7 +91,7 @@ let compareTwoScoreTuples =
   let (_, finalScore1, _) = scoreTuple1;
   let (_, finalScore2, _) = scoreTuple2;
 
-  compare(finalScore1, finalScore2);
+  compare(finalScore1, finalScore2) * -1;
 };
 
 let buildGraph = (line: string, pattern: string) => {
