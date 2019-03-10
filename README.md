@@ -8,7 +8,7 @@ Fuzzy matching algorithms in Reason, based on https://github.com/lotabout/fuzzy-
 TODO:
  - [x] : Generic/ClangD Matcher
     - [ ] : Check performance and compare scores
- - [ ] : Path Specific matcher
+ - [X] : Path Specific matcher
     - [ ] : Check performance and compare scores
 
 **Contains the following libraries and executables:**
