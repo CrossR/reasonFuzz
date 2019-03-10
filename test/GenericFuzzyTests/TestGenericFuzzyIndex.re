@@ -19,12 +19,14 @@ describe("General Index match scores should be correct.", ({test, _}) => {
       | Some(match) => match.indicies
       | None => [||]
       };
-    expect.equal(matches, [|0, 2, 4|]);
+
+    expect.array(matches).toEqual([|0, 2, 4|]);
   });
 
   test("Work for large input", ({expect}) => {
     let bestMatch = ref("");
     let bestScore = ref(0);
+    let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(TestArray.testInput) - 1) {
       let result =
@@ -33,14 +35,15 @@ describe("General Index match scores should be correct.", ({test, _}) => {
           ~pattern="quickOpenScore",
         );
 
-      let score =
+      let (score, indicies) =
         switch (result) {
-        | Some(match) => match.score
-        | None => (-1)
+        | Some(match) => (match.score, match.indicies)
+        | None => (-1, [||])
         };
 
       if (score > bestScore^) {
         bestMatch := TestArray.testInput[i];
+        bestMatchIndex := indicies;
       };
     };
 
@@ -48,6 +51,23 @@ describe("General Index match scores should be correct.", ({test, _}) => {
       bestMatch^,
       "./src/vs/base/parts/quickopen/test/common/quickOpenScorer.test.ts",
     );
+
+    Array.iter((item) => Console.log(item), bestMatchIndex^);
+    expect.array(bestMatchIndex^).toEqual([|
+      21,
+      22,
+      35,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+    |]);
   });
 
   test("Work for even larger input", ({expect}) => {
