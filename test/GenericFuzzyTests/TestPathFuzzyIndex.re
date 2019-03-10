@@ -73,6 +73,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
   test("Work for even larger input", ({expect}) => {
     let bestMatch = ref("");
     let bestScore = ref(0);
+    let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
       let result =
@@ -81,18 +82,36 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
           ~pattern="gpio-regulator",
         );
 
-      let score =
+      let (score, indexes) =
         switch (result) {
-        | Some(match) => match.score
-        | None => (-1)
+        | Some(match) => (match.score, match.indicies)
+        | None => ((-1), [||])
         };
 
       if (score > bestScore^) {
         bestMatch := TestArray.linuxTest[i];
+        bestMatchIndex := indexes;
       };
     };
 
     expect.equal(bestMatch^, "./include/linux/regulator/gpio-regulator.h");
+
+    expect.array(bestMatchIndex^).toEqual([|
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+    |]);
   });
 
   test("Better match is picked", ({expect}) => {
