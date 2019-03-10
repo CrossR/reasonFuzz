@@ -52,7 +52,6 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
       "./src/vs/base/parts/quickopen/test/common/quickOpenScorer.test.ts",
     );
 
-  Console.ObjectPrinter.setMaxLength(max_int);
     expect.array(bestMatchIndex^).toEqual([|
       42,
       43,

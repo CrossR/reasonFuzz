@@ -37,8 +37,8 @@ describe("General Index match scores should be correct.", ({test, _}) => {
 
       let (score, indicies) =
         switch (result) {
-        | Some(match) => (match.score, match.indicies)
-        | None => (-1, [||])
+        | Some(match) => (match.score, match.in>dicies)
+        | None => ((-1), [||])
         };
 
       if (score > bestScore^) {
@@ -52,8 +52,8 @@ describe("General Index match scores should be correct.", ({test, _}) => {
       "./src/vs/base/parts/quickopen/test/common/quickOpenScorer.test.ts",
     );
 
-    Array.iter((item) => Console.log(item), bestMatchIndex^);
     expect.array(bestMatchIndex^).toEqual([|
+      20,
       21,
       22,
       35,

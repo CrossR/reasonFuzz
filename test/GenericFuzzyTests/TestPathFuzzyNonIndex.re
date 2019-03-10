@@ -12,10 +12,8 @@ describe("Path Fuzzy match scores should be correct.", ({test, _}) => {
   });
 
   test("Better match is picked", ({expect}) => {
-    let result1 =
-      ReasonFuzz.pathFuzzyMatch(~line="abcxyz", ~pattern="abc");
-    let result2 =
-      ReasonFuzz.pathFuzzyMatch(~line="abcxyz", ~pattern="acz");
+    let result1 = ReasonFuzz.pathFuzzyMatch(~line="abcxyz", ~pattern="abc");
+    let result2 = ReasonFuzz.pathFuzzyMatch(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
