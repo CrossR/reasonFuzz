@@ -255,10 +255,13 @@ let fuzzyMatch = (~line: string, ~pattern: string) => {
     let scores = buildGraph(line, pattern);
 
     let finalScore = switch(scores) {
-    | Some(scoreArray) => getBestScore(scoreArray[Array.length(scoreArray) - 1])
-    | None => 0;
+    | Some(scoreArray) => Some(getBestScore(scoreArray[Array.length(scoreArray) - 1]))
+    | None => None;
     };
 
-    Some(MatchResult.create(finalScore))
+    switch (finalScore) {
+    | None => None
+    | Some(score) => Some(MatchResult.create(score))
+    };
   };
 };
