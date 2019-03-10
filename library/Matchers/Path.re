@@ -65,7 +65,7 @@ let dealWithScoreRow =
       prev: MatchingStatus.t,
       scoreBeforeIndex: int,
     ) =>
-  if (current.index < next.index) {
+  if (current.index < next.index && (current.index < prev.index) == false) {
     let adjNum = next.index - current.index - 1;
     let finalScore = ref(current.finalScore + next.score);
     Console.log("      adjNum: " ++ string_of_int(adjNum));
