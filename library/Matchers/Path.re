@@ -257,7 +257,7 @@ let buildGraph = (line: string, pattern: string) => {
 
 let compareMatchingStatus =
     (matchStatus1: MatchingStatus.t, matchStatus2: MatchingStatus.t) => {
-  compare(matchStatus1.finalScore, matchStatus2.finalScore);
+  compare(matchStatus1.finalScore, matchStatus2.finalScore) * -1;
 };
 
 let getBestScore = (scoresArray: array(MatchingStatus.t)) => {
