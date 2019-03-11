@@ -24,6 +24,39 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
     expect.array(matches).toEqual([|0, 2, 4|]);
   });
 
+  test("Correctly sorts results for fuzzy match.", ({expect}) => {
+    let testInputs = [|
+      "packages/demo/src/BufferEditor.ts",
+      "packages/demo/src/BufferEditorContainer.ts",
+      "packages/core/src/astBackedEditing.ts",
+    |];
+
+    let testPattern = "aBE";
+    let bestMatch = ref("");
+    let bestScore = ref(min_int);
+    let bestMatchIndex = ref([||]);
+
+    for (i in 0 to Array.length(testInputs) - 1) {
+      let result =
+        ReasonFuzz.pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+
+      let (score, indexes) =
+        switch (result) {
+        | Some(match) => (match.score, match.indicies)
+        | None => ((-1), [||])
+        };
+
+      if (score > bestScore^) {
+        bestMatch := testInputs[i];
+        bestMatchIndex := indexes;
+      };
+    };
+
+    expect.equal(bestMatch^, testInputs[2]);
+
+    expect.array(bestMatchIndex^).toEqual([|18, 21, 25|]);
+  });
+
   test("Works for large input", ({expect}) => {
     let bestMatch = ref("");
     let bestScore = ref(0);
