@@ -12,6 +12,72 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
     expect.notEqual(result, None);
   });
 
+  test("Correctly score case-match higher", ({expect}) => {
+    let testString = "SRC";
+    let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
+
+    let result1 =
+      ReasonFuzz.pathIndexMatch(~line=testList[0], ~pattern=testString);
+    let result2 =
+      ReasonFuzz.pathIndexMatch(~line=testList[1], ~pattern=testString);
+
+    expect.notEqual(result1, None);
+    expect.notEqual(result2, None);
+
+    expect.notEqual(result1, result2);
+
+    let (score1, indexes1) =
+      switch (result1) {
+      | Some(match) => (match.score, match.indicies)
+      | None => (min_int, [||])
+      };
+
+    let (score2, indexes2) =
+      switch (result2) {
+      | Some(match) => (match.score, match.indicies)
+      | None => (min_int, [||])
+      };
+
+    expect.equal(score2 > score1, true);
+    expect.array(indexes1).toEqual([|8, 9, 10|]);
+    expect.array(indexes2).toEqual([|8, 9, 10|]);
+  });
+
+  test(
+    "Correctly sorts results for shortest result on file name.", ({expect}) => {
+    let testPattern = "main";
+    let testInputs = [|
+      "packages/core/src/main.tex",
+      "packages/core/test/main.tex",
+      "packages/core/test/oni/main.tex",
+    |];
+
+    let bestMatch = ref("");
+    let bestScore = ref(min_int);
+    let bestMatchIndex = ref([||]);
+
+    for (i in 0 to Array.length(testInputs) - 1) {
+      let result =
+        ReasonFuzz.pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+
+      let (score, indexes) =
+        switch (result) {
+        | Some(match) => (match.score, match.indicies)
+        | None => ((-1), [||])
+        };
+
+      if (score > bestScore^) {
+        bestScore := score;
+        bestMatch := testInputs[i];
+        bestMatchIndex := indexes;
+      };
+    };
+
+    expect.equal(bestMatch^, testInputs[0]);
+
+    expect.array(bestMatchIndex^).toEqual([|18, 19, 20, 21|]);
+  });
+
   test("Index match is correct", ({expect}) => {
     let result = ReasonFuzz.pathIndexMatch(~line="axbycz", ~pattern="abc");
 
@@ -55,7 +121,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
 
     expect.equal(bestMatch^, testInputs[2]);
 
-    expect.array(bestMatchIndex^).toEqual([|18, 21, 25|]);
+    expect.array(bestMatchIndex^).toEqual([|18, 21, 27|]);
   });
 
   test("Works for large input", ({expect}) => {
