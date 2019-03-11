@@ -65,7 +65,7 @@ let dealWithScoreRow =
       prev: MatchingStatus.t,
       scoreBeforeIndex: int,
     ) =>
-  if (current.index < next.index && (current.index < prev.index) == false) {
+  if (current.index < next.index && current.index < prev.index == false) {
     let adjNum = next.index - current.index - 1;
     let finalScore = ref(current.finalScore + next.score);
 
@@ -85,7 +85,7 @@ let compareTwoScoreTuples =
   let (_, finalScore1, _) = scoreTuple1;
   let (_, finalScore2, _) = scoreTuple2;
 
-  compare(finalScore1, finalScore2) * -1;
+  compare(finalScore1, finalScore2) * (-1);
 };
 
 let buildGraph = (line: string, pattern: string) => {
@@ -101,16 +101,17 @@ let buildGraph = (line: string, pattern: string) => {
   /* Initialise the match positions and inline scores. */
   let pId = ref(0);
   while (pId^ <= patternLen - 1 && validMatch^) {
-    let pChar = Char.lowercase_ascii(pattern.[pId^]);
+    let pChar = pattern.[pId^];
 
     let statuses = ref([||]);
     let lPrevChar: ref(option(Char.t)) = ref(None);
 
     let lId = ref(0);
     while (lId^ <= lineLen - 1 && validMatch^) {
-      let lChar = Char.lowercase_ascii(line.[lId^]);
+      let lChar = line.[lId^];
 
-      if (lChar == pChar && lId^ > previousMatchedId^) {
+      if (Char.lowercase_ascii(lChar) == Char.lowercase_ascii(pChar)
+          && lId^ > previousMatchedId^) {
         let score =
           fuzzyScore(lChar, lId^, lPrevChar^, pChar, pId^, pPrevChar^);
         let newMatch =
@@ -137,7 +138,6 @@ let buildGraph = (line: string, pattern: string) => {
     };
 
     pId := pId^ + 1;
-
   };
 
   pId := 1;
@@ -207,7 +207,7 @@ let buildGraph = (line: string, pattern: string) => {
 
 let compareMatchingStatus =
     (matchStatus1: MatchingStatus.t, matchStatus2: MatchingStatus.t) => {
-  compare(matchStatus1.finalScore, matchStatus2.finalScore) * -1;
+  compare(matchStatus1.finalScore, matchStatus2.finalScore) * (-1);
 };
 
 let getBestScore = (scoresArray: array(MatchingStatus.t)) => {
