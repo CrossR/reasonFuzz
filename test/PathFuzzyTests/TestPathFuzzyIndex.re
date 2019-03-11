@@ -1,4 +1,5 @@
 open TestFramework;
+open Generic_Fuzzy_Test;
 
 describe("Path Index match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect}) => {

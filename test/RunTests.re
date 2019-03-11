@@ -1,1 +1,2 @@
-Fuzzy_Test.TestFramework.cli();
+Generic_Fuzzy_Test.TestFramework.cli();
+Path_Fuzzy_Test.TestFramework.cli();
