@@ -5,6 +5,7 @@
   "esy": {
     "build": "refmterr dune build --root . -j4",
     "install": [
+      "esy-installer ReasonFuzz.install",
       "esy-installer Matchers.install",
       "esy-installer RunTests.install"
     ]
