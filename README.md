@@ -3,7 +3,7 @@
 [![Build Status](https://dev.azure.com/CrossR-1/reasonFuzz/_apis/build/status/CrossR.reasonFuzz?branchName=master)](https://dev.azure.com/CrossR-1/reasonFuzz/_build/latest?definitionId=3&branchName=master)
 
 
-Fuzzy matching algorithms in Reason, based on https://github.com/lotabout/fuzzy-matcher.
+Fuzzy matching algorithms in Reason, converted from https://github.com/lotabout/fuzzy-matcher.
 
 TODO:
  - [x] : Generic/ClangD Matcher.
