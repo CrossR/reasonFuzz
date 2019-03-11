@@ -47,6 +47,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
         };
 
       if (score > bestScore^) {
+        bestScore := score;
         bestMatch := testInputs[i];
         bestMatchIndex := indexes;
       };
@@ -59,7 +60,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
 
   test("Works for large input", ({expect}) => {
     let bestMatch = ref("");
-    let bestScore = ref(0);
+    let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(TestArray.testInput) - 1) {
@@ -76,6 +77,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
         };
 
       if (score > bestScore^) {
+        bestScore := score;
         bestMatch := TestArray.testInput[i];
         bestMatchIndex := indexes;
       };
@@ -83,10 +85,15 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
 
     expect.equal(
       bestMatch^,
-      "./src/vs/base/parts/quickopen/test/common/quickOpenScorer.test.ts",
+      "./src/vs/base/parts/quickopen/common/quickOpenScorer.ts",
     );
 
     expect.array(bestMatchIndex^).toEqual([|
+      37,
+      38,
+      39,
+      40,
+      41,
       42,
       43,
       44,
@@ -96,17 +103,12 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
       48,
       49,
       50,
-      51,
-      52,
-      53,
-      54,
-      55,
     |]);
   });
 
   test("Work for even larger input", ({expect}) => {
     let bestMatch = ref("");
-    let bestScore = ref(0);
+    let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
@@ -123,14 +125,21 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
         };
 
       if (score > bestScore^) {
+        bestScore := score;
         bestMatch := TestArray.linuxTest[i];
         bestMatchIndex := indexes;
       };
     };
 
-    expect.equal(bestMatch^, "./include/linux/regulator/gpio-regulator.h");
+    expect.equal(bestMatch^, "./drivers/regulator/gpio-regulator.c");
 
     expect.array(bestMatchIndex^).toEqual([|
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
       26,
       27,
       28,
@@ -139,12 +148,6 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
       31,
       32,
       33,
-      34,
-      35,
-      36,
-      37,
-      38,
-      39,
     |]);
   });
 

@@ -25,7 +25,7 @@ describe("General Index match scores should be correct.", ({test, _}) => {
 
   test("Work for large input", ({expect}) => {
     let bestMatch = ref("");
-    let bestScore = ref(0);
+    let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(TestArray.testInput) - 1) {
@@ -42,6 +42,7 @@ describe("General Index match scores should be correct.", ({test, _}) => {
         };
 
       if (score > bestScore^) {
+        bestScore := score;
         bestMatch := TestArray.testInput[i];
         bestMatchIndex := indicies;
       };
@@ -49,30 +50,30 @@ describe("General Index match scores should be correct.", ({test, _}) => {
 
     expect.equal(
       bestMatch^,
-      "./src/vs/base/parts/quickopen/test/common/quickOpenScorer.test.ts",
+      "./src/vs/base/parts/quickopen/common/quickOpenScorer.ts",
     );
 
     expect.array(bestMatchIndex^).toEqual([|
       20,
       21,
       22,
-      35,
+      30,
+      41,
+      42,
+      43,
+      44,
+      45,
       46,
       47,
       48,
       49,
       50,
-      51,
-      52,
-      53,
-      54,
-      55,
     |]);
   });
 
   test("Work for even larger input", ({expect}) => {
     let bestMatch = ref("");
-    let bestScore = ref(0);
+    let bestScore = ref(min_int);
 
     for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
       let result =
@@ -88,11 +89,12 @@ describe("General Index match scores should be correct.", ({test, _}) => {
         };
 
       if (score > bestScore^) {
+        bestScore := score;
         bestMatch := TestArray.linuxTest[i];
       };
     };
 
-    expect.equal(bestMatch^, "./include/linux/regulator/gpio-regulator.h");
+    expect.equal(bestMatch^, "./drivers/regulator/gpio-regulator.c");
   });
 
   test("Better match is picked", ({expect}) => {
