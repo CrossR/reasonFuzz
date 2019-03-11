@@ -37,7 +37,7 @@ describe("General Index match scores should be correct.", ({test, _}) => {
 
       let (score, indicies) =
         switch (result) {
-        | Some(match) => (match.score, match.in>dicies)
+        | Some(match) => (match.score, match.indicies)
         | None => ((-1), [||])
         };
 
