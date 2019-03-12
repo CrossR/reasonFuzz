@@ -16,43 +16,39 @@ let fuzzyScore =
       pId: int,
       _pPrevChar: option(Char.t),
     ) => {
-  let score = ref(0);
+  let score = ref(PathScore.default.bonusMatch);
 
   let lPrevCharType = CharType.charTypeOf(lPrevChar);
+  let lCharRole = CharRole.charRole(lPrevChar, Some(lChar));
 
-  if (pChar == lChar && CharType.charTypeOf(Some(pChar)) == CharType.Upper) {
-    score := score^ + PathScore.default.bonusUpperMatch;
+  if (pChar == lChar) {
+    if (CharType.charTypeOf(Some(pChar)) == CharType.Upper) {
+      score := score^ + PathScore.default.bonusUpperMatch;
+    } else {
+      score := score^ + PathScore.default.bonusCaseMatch;
+    };
   } else {
     score := score^ + PathScore.default.penaltyCaseUnmatched;
   };
 
-  if (lId == 0 && CharType.charTypeOf(Some(lChar)) != CharType.Upper) {
-    score^;
-  } else {
-    if (lId == 0 && CharType.charTypeOf(Some(lChar)) == CharType.Upper) {
-      score := score^ + PathScore.default.bonusCamel;
-    };
-
-    if (lPrevCharType == CharType.Separ) {
-      score := score^ + PathScore.default.bonusSeparator;
-    };
-
-    if (CharType.charTypeOf(lPrevChar) == CharType.Lower
-        && CharType.charTypeOf(Some(lChar)) == CharType.Upper) {
-      score := score^ + PathScore.default.bonusCamel;
-    };
-
-    if (pId == 0) {
-      score :=
-        score^
-        + max(
-            lId * PathScore.default.penaltyLeading,
-            PathScore.default.penaltyMaxLeading,
-          );
-    };
-
-    score^;
+  if (lCharRole == CharRole.Head) {
+    score := score^ + PathScore.default.bonusCamel;
   };
+
+  if (lPrevCharType == CharType.Separ) {
+    score := score^ + PathScore.default.bonusSeparator;
+  };
+
+  if (pId == 0) {
+    score :=
+      score^
+      + max(
+          lId * PathScore.default.penaltyLeading,
+          PathScore.default.penaltyMaxLeading,
+        );
+  };
+
+  score^;
 };
 
 /*****************************************************************************/

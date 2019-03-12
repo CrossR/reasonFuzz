@@ -106,6 +106,8 @@ module Score = {
 
 module PathScore = {
   type t = {
+    bonusMatch: int,
+    bonusCaseMatch: int,
     bonusUpperMatch: int,
     bonusAdjacency: int,
     bonusSeparator: int,
@@ -117,7 +119,9 @@ module PathScore = {
   };
 
   let default: t = {
-    bonusUpperMatch: 10,
+    bonusMatch: 4,
+    bonusCaseMatch: 4,
+    bonusUpperMatch: 6,
     bonusAdjacency: 10,
     bonusSeparator: 8,
     bonusCamel: 8,
