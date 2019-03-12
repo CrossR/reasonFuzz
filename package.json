@@ -21,7 +21,8 @@
     "@reason-native/rely": "^1.2.0",
     "ocaml": "^4.7.0",
     "pesy": "*",
-    "refmterr": "*"
+    "refmterr": "*",
+    "reperf": "^1.4.0"
   },
   "devDependencies": {
     "@opam/merlin": "*"

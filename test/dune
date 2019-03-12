@@ -4,5 +4,5 @@
   (name RunTests)
   (public_name RunTests)
   (package RunTests)
-  (libraries Generic_Fuzzy_Test Path_Fuzzy_Test)
+  (libraries Generic_Fuzzy_Test Path_Fuzzy_Test ReasonFuzzBench)
 )
