@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "test": "esy x RunTests",
+    "test": "esy @test x RunTests",
     "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {

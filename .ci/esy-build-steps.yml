@@ -12,8 +12,16 @@ steps:
   - script: esy install
     displayName: 'Check esy install'
     continueOnError: true
+  - script: esy @test install
+    displayName: 'esy test install'
+    continueOnError: true
+  - script: esy @test install
+    displayName: 'esy test install'
+    continueOnError: true
   - script: esy build
     displayName: 'esy build'
+  - script: esy @test build
+    displayName: 'esy @test build'
   - script: esy test
     displayName: 'esy test'
   # - script: esy release
