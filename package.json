@@ -14,16 +14,16 @@
     "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {
-    "@esy-ocaml/reason": "*"
+    "ocaml": "^4.7.0",
+    "@esy-ocaml/reason": "*",
+    "@opam/dune": ">=1.6.0",
+    "refmterr": "*"
   },
   "devDependencies": {
-    "ocaml": "^4.7.0",
     "@opam/merlin": "*",
     "@reason-native/rely": "^1.2.0",
     "@reason-native/console": "^0.0.3",
-    "@opam/dune": ">=1.6.0",
     "pesy": "*",
-    "refmterr": "*",
     "reperf": "^1.4.0"
   }
 }
