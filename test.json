@@ -1,0 +1,11 @@
+{
+    "source": "./package.json",
+    "override": {
+        "build": [
+            "dune build --root . -j4"
+        ],
+        "install": [
+            "esy-installer RunTests.install"
+        ]
+    }
+}

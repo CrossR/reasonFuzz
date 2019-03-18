@@ -6,8 +6,7 @@
     "build": "refmterr dune build --root . -j4",
     "install": [
       "esy-installer ReasonFuzz.install",
-      "esy-installer Matchers.install",
-      "esy-installer RunTests.install"
+      "esy-installer Matchers.install"
     ]
   },
   "scripts": {
@@ -15,16 +14,16 @@
     "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {
-    "@esy-ocaml/reason": "*",
-    "@opam/dune": ">=1.6.0",
-    "@reason-native/console": "^0.0.3",
-    "@reason-native/rely": "^1.2.0",
+    "@esy-ocaml/reason": "*"
+  },
+  "devDependencies": {
     "ocaml": "^4.7.0",
+    "@opam/merlin": "*",
+    "@reason-native/rely": "^1.2.0",
+    "@reason-native/console": "^0.0.3",
+    "@opam/dune": ">=1.6.0",
     "pesy": "*",
     "refmterr": "*",
     "reperf": "^1.4.0"
-  },
-  "devDependencies": {
-    "@opam/merlin": "*"
   }
 }
