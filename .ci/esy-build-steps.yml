@@ -14,8 +14,16 @@ steps:
     displayName: 'esy build'
   - script: esy @test build
     displayName: 'esy @test build'
-  - script: esy test
-    displayName: 'esy test'
+  - script: esy test-ci
+    displayName: 'esy test-ci'
+  - task: PublishTestResults@2
+    displayName: 'Publish JUnit file'
+    inputs:
+      testResultsFormat: JUnit
+      testResultsFiles: '**/*junit.xml'
+      buildPlatform: ${{ parameters.platform }}
+      testRunTitle: ${{ parameters.platform }}
+      failTaskOnFailedTests: true
   # - script: esy release
   #   displayName: 'Test Creation of Prebuilt Binary Releases'
   #   continueOnError: true
