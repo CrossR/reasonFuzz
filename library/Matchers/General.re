@@ -116,13 +116,13 @@ let _debugDp = (line: string, pattern: string, dp: array(array(Score.t))) => {
     Console.out("\n" ++ string_of_int(row) ++ "\t");
     for (col in 0 to lineLen) {
       let cell = dp[row][col];
-      let result1 = cell.lastActionMiss^ == Action.Miss ? "X" : "O";
-      let result2 = cell.lastActionMatch^ == Action.Miss ? "X" : "O";
+      let result1 = cell.lastActionMiss == Action.Miss ? "X" : "O";
+      let result2 = cell.lastActionMatch == Action.Miss ? "X" : "O";
       Console.out(
-        "(" ++ string_of_int(cell.missScore^) ++ "," ++ result1 ++ ")",
+        "(" ++ string_of_int(cell.missScore) ++ "," ++ result1 ++ ")",
       );
       Console.out(
-        "/(" ++ string_of_int(cell.matchScore^) ++ "," ++ result2 ++ ")\t",
+        "/(" ++ string_of_int(cell.matchScore) ++ "," ++ result2 ++ ")\t",
       );
     };
   };
@@ -136,29 +136,12 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
 
   let dp: array(array(Score.t)) = Score.matrixOfDefault(maxRows, lineLen);
 
-  /* Awkward syntax here until I get time to work out the cleaner way of doing this
-     The main issue is having changes propagated to the whole matrix*/
-  let zeroedResult: Score.t = {
-    lastActionMiss: ref(Action.Miss),
-    lastActionMatch: ref(Action.Miss),
-    missScore: ref(0),
-    matchScore: ref(awfulScore),
-  };
-
-  dp[0][0] = zeroedResult;
+  dp[0][0].missScore = 0;
 
   for (id in 0 to lineLen - 1) {
     let char = line.[id];
-
-    let result: Score.t = {
-      missScore:
-        ref(dp[0][id].missScore^ - skipPenalty(id, char, Action.Miss)),
-      lastActionMiss: ref(Action.Miss),
-      matchScore: ref(awfulScore),
-      lastActionMatch: ref(Action.Miss),
-    };
-
-    dp[0][id + 1] = result;
+    dp[0][id + 1].missScore =
+      dp[0][id].missScore - skipPenalty(id, char, Action.Miss);
   };
 
   let pPrevChar: ref(option(Char.t)) = ref(None);
@@ -178,14 +161,14 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
         let prevMiss = dp[currentRowId][lId];
 
         if (pId < patternLen - 1) {
-          prevMiss.matchScore :=
-            prevMiss.matchScore^ - skipPenalty(lId, lChar, Action.Match);
-          prevMiss.missScore :=
-            prevMiss.missScore^ - skipPenalty(lId, lChar, Action.Miss);
+          prevMiss.matchScore =
+            prevMiss.matchScore - skipPenalty(lId, lChar, Action.Match);
+          prevMiss.missScore =
+            prevMiss.missScore - skipPenalty(lId, lChar, Action.Miss);
         };
 
         let (missScore, lastActionMiss) =
-          if (prevMiss.matchScore^ > prevMiss.missScore^) {
+          if (prevMiss.matchScore > prevMiss.missScore) {
             (prevMiss.matchScore, Action.Match);
           } else {
             (prevMiss.missScore, Action.Miss);
@@ -194,7 +177,7 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
         let preMatch = dp[prevRowId][lId];
         let matchMatchScore =
           if (allowMatch(pChar, lChar)) {
-            preMatch.matchScore^
+            preMatch.matchScore
             + matchBonus(
                 pId,
                 pChar,
@@ -210,7 +193,7 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
 
         let missMatchScore =
           if (allowMatch(pChar, lChar)) {
-            preMatch.missScore^
+            preMatch.missScore
             + matchBonus(
                 pId,
                 pChar,
@@ -231,14 +214,12 @@ let buildGraph = (line: string, pattern: string, compressed: bool) => {
             (missMatchScore, Action.Miss);
           };
 
-        let result: Score.t = {
-          missScore: ref(missScore^),
-          lastActionMiss: ref(lastActionMiss),
-          matchScore: ref(matchScore),
-          lastActionMatch: ref(lastActionMatch),
+        dp[currentRowId][lId + 1] = {
+          missScore,
+          lastActionMiss,
+          matchScore,
+          lastActionMatch,
         };
-
-        dp[currentRowId][lId + 1] = result;
 
         lPrevChar := Some(lChar);
       };
@@ -256,7 +237,7 @@ let fuzzyIndiciesMatch = (line: string, pattern: string) => {
 
   let dp = buildGraph(line, pattern, false);
 
-  let indiciesReversed: ref(array(int)) = ref([||]);
+  let indiciesReversed: array(int) = Array.make(patternLen, -1);
   let cell = dp[patternLen][lineLen];
 
   let (lastAction, score) =
@@ -268,25 +249,28 @@ let fuzzyIndiciesMatch = (line: string, pattern: string) => {
 
   let row = ref(patternLen);
   let col = ref(lineLen);
+  let currentIndex = ref(0);
 
   while (row^ > 0 && col^ > 0) {
     let cell = dp[row^][col^];
 
     if (lastAction^ == Action.Match) {
-      indiciesReversed := Array.append(indiciesReversed^, [|col^ - 1|]);
-      lastAction := cell.lastActionMatch^;
+      indiciesReversed[currentIndex^] = col^ - 1;
+      lastAction := cell.lastActionMatch;
       row := row^ - 1;
       col := col^ - 1;
+      currentIndex := currentIndex^ + 1;
     } else {
-      lastAction := cell.lastActionMiss^;
+      lastAction := cell.lastActionMiss;
       col := col^ - 1;
     };
   };
 
-  indiciesReversed := Helpers.reverseArray(indiciesReversed^);
+  let indiciesReversed =
+    Helpers.reverseArray(Array.sub(indiciesReversed, 0, currentIndex^));
 
   Some(
-    IndexMatchResult.create(adjustScore(score^, lineLen), indiciesReversed^),
+    IndexMatchResult.create(adjustScore(score, lineLen), indiciesReversed),
   );
 };
 
@@ -297,7 +281,7 @@ let fuzzyMatchMatch = (line: string, pattern: string) => {
   let dp = buildGraph(line, pattern, true);
 
   let cell = dp[patternLen land 1][lineLen];
-  let score = max(cell.matchScore^, cell.missScore^);
+  let score = max(cell.matchScore, cell.missScore);
 
   Some(MatchResult.create(adjustScore(score, lineLen)));
 };

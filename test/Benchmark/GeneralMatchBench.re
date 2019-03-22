@@ -4,7 +4,7 @@ open Generic_Fuzzy_Test;
 let setup = () => ();
 
 let benchSingleMatch = () => {
-  let _ = ReasonFuzz.pathIndexMatch(~line="axbycz", ~pattern="abc");
+  let _ = ReasonFuzz.generalIndexMatch(~line="axbycz", ~pattern="abc");
   ();
 };
 
@@ -22,7 +22,7 @@ let benchBasic = () => {
 
   for (i in 0 to Array.length(testInputs) - 1) {
     let result =
-      ReasonFuzz.pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+      ReasonFuzz.generalIndexMatch(~line=testInputs[i], ~pattern=testPattern);
 
     let (score, indexes) =
       switch (result) {
@@ -47,7 +47,7 @@ let benchVSCodeSearch = () => {
 
   for (i in 0 to Array.length(TestArray.testInput) - 1) {
     let result =
-      ReasonFuzz.pathIndexMatch(
+      ReasonFuzz.generalIndexMatch(
         ~line=TestArray.testInput[i],
         ~pattern="quickOpenScore",
       );
@@ -75,7 +75,7 @@ let benchLinuxSearch = () => {
 
   for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
     let result =
-      ReasonFuzz.pathIndexMatch(
+      ReasonFuzz.generalIndexMatch(
         ~line=TestArray.linuxTest[i],
         ~pattern="gpio-regulator",
       );
@@ -99,22 +99,28 @@ let benchLinuxSearch = () => {
 let options = Reperf.Options.create(~iterations=1, ());
 
 bench(
-  ~name="Path Index: Single Bench",
+  ~name="General Index: Single Bench",
   ~options,
   ~setup,
   ~f=benchSingleMatch,
   (),
 );
-bench(~name="Path Index: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
 bench(
-  ~name="Path Index: VSCode Bench",
+  ~name="General Index: Basic Bench",
+  ~options,
+  ~setup,
+  ~f=benchBasic,
+  (),
+);
+bench(
+  ~name="General Index: VSCode Bench",
   ~options,
   ~setup,
   ~f=benchVSCodeSearch,
   (),
 );
 bench(
-  ~name="Path Index: Linux Bench",
+  ~name="General Index: Linux Bench",
   ~options,
   ~setup,
   ~f=benchLinuxSearch,

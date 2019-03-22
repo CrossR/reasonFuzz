@@ -160,10 +160,10 @@ describe("General Index match scores should be correct.", ({test, _}) => {
     );
 
     expect.array(bestMatchIndex^).toEqual([|
-      20,
-      21,
-      22,
-      30,
+      37,
+      38,
+      39,
+      40,
       41,
       42,
       43,

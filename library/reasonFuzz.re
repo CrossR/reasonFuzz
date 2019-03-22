@@ -1,8 +1,8 @@
 /*
  * ReasonFuzz
- * 
+ *
  * Entry point to the fuzzy matching algorithms.
- * 
+ *
  * There is a general fuzzy matcher, and a path specific one.
  */
 

@@ -223,16 +223,21 @@ let fuzzyIndicies = (~line: string, ~pattern: string) =>
       let finalScore = getBestScore(scores[Array.length(scores) - 1]);
       let nextCol = ref(0);
 
-      let picked = ref([||]);
+      let picked = Array.make(String.length(pattern), -1);
       let pId = ref(Array.length(scores) - 1);
+      let currentIndex = ref(0);
+
       while (pId^ >= 0) {
         let status = scores[pId^][nextCol^];
         nextCol := status.backRef;
-        picked := Array.append(picked^, [|status.index|]);
+
+        picked[currentIndex^] = status.index;
         pId := pId^ - 1;
+        currentIndex := currentIndex^ + 1;
       };
 
-      let indexes = Helpers.reverseArray(picked^);
+      let indexes =
+        Helpers.reverseArray(Array.sub(picked, 0, currentIndex^));
       Some(IndexMatchResult.create(finalScore, indexes));
     };
   };

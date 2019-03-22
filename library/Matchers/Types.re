@@ -72,17 +72,17 @@ module CharRole = {
 
 module Score = {
   type t = {
-    lastActionMiss: ref(Action.t),
-    lastActionMatch: ref(Action.t),
-    missScore: ref(int),
-    matchScore: ref(int),
+    mutable lastActionMiss: Action.t,
+    mutable lastActionMatch: Action.t,
+    mutable missScore: int,
+    mutable matchScore: int,
   };
 
   let default: t = {
-    lastActionMiss: ref(Action.Miss),
-    lastActionMatch: ref(Action.Miss),
-    missScore: ref(awfulScore),
-    matchScore: ref(awfulScore),
+    lastActionMiss: Action.Miss,
+    lastActionMatch: Action.Miss,
+    missScore: awfulScore,
+    matchScore: awfulScore,
   };
 
   let getDefault = (_: int) => {

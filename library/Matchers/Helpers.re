@@ -14,7 +14,8 @@ let reverseArray = (backwards: array('a)) => {
 
 let splitArray = (inputArray: array('a), midPoint: int) => {
   let firstHalf = Array.sub(inputArray, 0, midPoint);
-  let lastHalf = Array.sub(inputArray, midPoint, Array.length(inputArray) - midPoint);
+  let lastHalf =
+    Array.sub(inputArray, midPoint, Array.length(inputArray) - midPoint);
 
   (firstHalf, lastHalf);
 };
