@@ -1,6 +1,6 @@
 open TestFramework;
 
-describe("General Index match scores should be correct.", ({test, _}) => {
+describe("General Index: Match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect}) => {
     let result = ReasonFuzz.generalIndexMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);

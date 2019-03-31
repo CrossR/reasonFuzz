@@ -1,14 +1,19 @@
 open TestFramework;
 open Generic_Fuzzy_Test;
+open ReasonFuzz;
 
-describe("Path Index match scores should be correct.", ({test, _}) => {
+let compareScores = (score1: IndexMatchResult.t, score2: IndexMatchResult.t) => {
+  compare(score1.score, score2.score) * (-1);
+};
+
+describe("Path Index: Match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect}) => {
-    let result = ReasonFuzz.pathIndexMatch(~line="abc", ~pattern="abx");
+    let result = pathIndexMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect}) => {
-    let result = ReasonFuzz.pathIndexMatch(~line="axbycz", ~pattern="abc");
+    let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
@@ -16,10 +21,8 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
-    let result1 =
-      ReasonFuzz.pathIndexMatch(~line=testList[0], ~pattern=testString);
-    let result2 =
-      ReasonFuzz.pathIndexMatch(~line=testList[1], ~pattern=testString);
+    let result1 = pathIndexMatch(~line=testList[0], ~pattern=testString);
+    let result2 = pathIndexMatch(~line=testList[1], ~pattern=testString);
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
@@ -57,8 +60,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(testInputs) - 1) {
-      let result =
-        ReasonFuzz.pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+      let result = pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
 
       let (score, indexes) =
         switch (result) {
@@ -79,7 +81,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
   });
 
   test("Index match is correct", ({expect}) => {
-    let result = ReasonFuzz.pathIndexMatch(~line="axbycz", ~pattern="abc");
+    let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
 
     let matches =
       switch (result) {
@@ -103,8 +105,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(testInputs) - 1) {
-      let result =
-        ReasonFuzz.pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+      let result = pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
 
       let (score, indexes) =
         switch (result) {
@@ -131,7 +132,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
 
     for (i in 0 to Array.length(TestArray.testInput) - 1) {
       let result =
-        ReasonFuzz.pathIndexMatch(
+        pathIndexMatch(
           ~line=TestArray.testInput[i],
           ~pattern="quickOpenScore",
         );
@@ -172,6 +173,33 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
     |]);
   });
 
+  test("Works for Oni src input", ({expect}) => {
+    let bestMatch = ref("");
+    let bestScore = ref(min_int);
+    let bestMatchIndex = ref([||]);
+
+    for (i in 0 to Array.length(TestArray.oniTestInput) - 1) {
+      let result =
+        pathIndexMatch(~line=TestArray.oniTestInput[i], ~pattern="token");
+
+      let (score, indexes) =
+        switch (result) {
+        | Some(match) => (match.score, match.indicies)
+        | None => ((-1), [||])
+        };
+
+      if (score > bestScore^) {
+        bestScore := score;
+        bestMatch := TestArray.oniTestInput[i];
+        bestMatchIndex := indexes;
+      };
+    };
+
+    expect.equal(bestMatch^, "src/editor/Model/Tokenizer.re");
+
+    expect.array(bestMatchIndex^).toEqual([|17, 18, 19, 20, 21|]);
+  });
+
   test("Work for even larger input", ({expect}) => {
     let bestMatch = ref("");
     let bestScore = ref(min_int);
@@ -179,7 +207,7 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
 
     for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
       let result =
-        ReasonFuzz.pathIndexMatch(
+        pathIndexMatch(
           ~line=TestArray.linuxTest[i],
           ~pattern="gpio-regulator",
         );
@@ -218,8 +246,8 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
   });
 
   test("Better match is picked", ({expect}) => {
-    let result1 = ReasonFuzz.pathIndexMatch(~line="abcxyz", ~pattern="abc");
-    let result2 = ReasonFuzz.pathIndexMatch(~line="abcxyz", ~pattern="acz");
+    let result1 = pathIndexMatch(~line="abcxyz", ~pattern="abc");
+    let result2 = pathIndexMatch(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
@@ -239,5 +267,72 @@ describe("Path Index match scores should be correct.", ({test, _}) => {
       };
 
     expect.equal(score1 > score2, true);
+  });
+});
+
+describe("Path Index: VSCode Tests.", ({test, _}) => {
+  test("Score (fuzzy)", ({expect}) => {
+    let target = "HeLlo-World";
+    let testInputs = [|
+      "HelLo-World",
+      "hello-world",
+      "HW",
+      "hw",
+      "H",
+      "h",
+      "ld",
+      "W",
+      "w",
+      "Ld",
+      "L",
+      "l",
+      "4",
+    |];
+
+    let scores = ref([||]);
+
+    for (i in 0 to Array.length(testInputs) - 1) {
+      let result = pathIndexMatch(~line=testInputs[i], ~pattern=target);
+
+      scores :=
+        (
+          switch (result) {
+          | Some(match) => Array.append(scores^, [|match|])
+          | None => scores^
+          }
+        );
+    };
+
+    let sortedScores = Array.copy(scores^);
+    Array.fast_sort(compareScores, sortedScores);
+    expect.array(scores^).toEqual(sortedScores);
+  });
+
+  test("Score (fuzzy)", ({expect}) => {
+    let line = "/xyz/others/spath/some/xsp/file123.txt";
+    let pattern = "xspfile123";
+
+    let result = pathIndexMatch(~line, ~pattern);
+
+    expect.notEqual(result, None);
+
+    let indexes =
+      switch (result) {
+      | Some(match) => match.indicies
+      | None => [||]
+      };
+
+    expect.array(indexes).toEqual([|
+      23,
+      24,
+      25,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+    |]);
   });
 });

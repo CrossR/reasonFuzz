@@ -40,6 +40,34 @@ let benchBasic = () => {
   ();
 };
 
+let benchOniSearch = () => {
+  let bestMatch = ref("");
+  let bestScore = ref(min_int);
+  let bestMatchIndex = ref([||]);
+
+  for (i in 0 to Array.length(TestArray.oniTestInput) - 1) {
+    let result =
+      ReasonFuzz.pathIndexMatch(
+        ~line=TestArray.oniTestInput[i],
+        ~pattern="token",
+      );
+
+    let (score, indexes) =
+      switch (result) {
+      | Some(match) => (match.score, match.indicies)
+      | None => ((-1), [||])
+      };
+
+    if (score > bestScore^) {
+      bestScore := score;
+      bestMatch := TestArray.oniTestInput[i];
+      bestMatchIndex := indexes;
+    };
+  };
+
+  ();
+};
+
 let benchVSCodeSearch = () => {
   let bestMatch = ref("");
   let bestScore = ref(min_int);
@@ -111,6 +139,13 @@ bench(
   ~options,
   ~setup,
   ~f=benchVSCodeSearch,
+  (),
+);
+bench(
+  ~name="Path Index: Oni2 Bench",
+  ~options,
+  ~setup,
+  ~f=benchOniSearch,
   (),
 );
 bench(

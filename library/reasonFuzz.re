@@ -17,3 +17,7 @@ let pathFuzzyMatch = Matchers.Path.fuzzyMatch;
 
 /* A path specific fuzzy matcher that will return both a score, and the match locations. */
 let pathIndexMatch = Matchers.Path.fuzzyIndicies;
+
+/* Types */
+module MatchResult = Matchers.Types.MatchResult;
+module IndexMatchResult = Matchers.Types.IndexMatchResult;
