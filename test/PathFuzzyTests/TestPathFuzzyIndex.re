@@ -2,10 +2,6 @@ open TestFramework;
 open Generic_Fuzzy_Test;
 open ReasonFuzz;
 
-let compareScores = (score1: IndexMatchResult.t, score2: IndexMatchResult.t) => {
-  compare(score1.score, score2.score) * (-1);
-};
-
 describe("Path Index: Match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect}) => {
     let result = pathIndexMatch(~line="abc", ~pattern="abx");
@@ -267,72 +263,5 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
       };
 
     expect.equal(score1 > score2, true);
-  });
-});
-
-describe("Path Index: VSCode Tests.", ({test, _}) => {
-  test("Score (fuzzy)", ({expect}) => {
-    let target = "HeLlo-World";
-    let testInputs = [|
-      "HelLo-World",
-      "hello-world",
-      "HW",
-      "hw",
-      "H",
-      "h",
-      "ld",
-      "W",
-      "w",
-      "Ld",
-      "L",
-      "l",
-      "4",
-    |];
-
-    let scores = ref([||]);
-
-    for (i in 0 to Array.length(testInputs) - 1) {
-      let result = pathIndexMatch(~line=testInputs[i], ~pattern=target);
-
-      scores :=
-        (
-          switch (result) {
-          | Some(match) => Array.append(scores^, [|match|])
-          | None => scores^
-          }
-        );
-    };
-
-    let sortedScores = Array.copy(scores^);
-    Array.fast_sort(compareScores, sortedScores);
-    expect.array(scores^).toEqual(sortedScores);
-  });
-
-  test("Score (fuzzy)", ({expect}) => {
-    let line = "/xyz/others/spath/some/xsp/file123.txt";
-    let pattern = "xspfile123";
-
-    let result = pathIndexMatch(~line, ~pattern);
-
-    expect.notEqual(result, None);
-
-    let indexes =
-      switch (result) {
-      | Some(match) => match.indicies
-      | None => [||]
-      };
-
-    expect.array(indexes).toEqual([|
-      23,
-      24,
-      25,
-      27,
-      28,
-      29,
-      30,
-      31,
-      32,
-      33,
-    |]);
   });
 });
