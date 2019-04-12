@@ -26,7 +26,7 @@ let indexFuzzySortList = Matchers.Wrappers.indexFuzzySortList;
 
 /* Helpers */
 let compareScores = Matchers.Wrappers.compareScores;
-let compareScores = Matchers.Wrappers.compareScores;
+let compareIndexScores = Matchers.Wrappers.compareIndexScores;
 
 /* Types */
 module MatchResult = Matchers.Types.MatchResult;
