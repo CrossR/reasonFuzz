@@ -4,7 +4,7 @@
  * Helper wrappers, to make interfacing more easy.
  */
 
-let compareScores = (score1, score2, term1, term2) => {
+let _compareScores = (score1, score2, term1, term2) => {
   let score1Better = (-1);
   let score2Better = 1;
   let scoreEqual = 0;
@@ -41,7 +41,7 @@ let compareScores = (score1, score2, term1, term2) => {
   finalScore^;
 };
 
-let compareScoreObject =
+let compareScores =
     (
       scoreTuple1: (option(Types.MatchResult.t), string),
       scoreTuple2: (option(Types.MatchResult.t), string),
@@ -63,10 +63,10 @@ let compareScoreObject =
     | None => min_int
     };
 
-  compareScores(score1, score2, term1, term2);
+  _compareScores(score1, score2, term1, term2);
 };
 
-let compareIndexScoreObject =
+let compareIndexScores =
     (
       scoreTuple1: (option(Types.IndexMatchResult.t), string),
       scoreTuple2: (option(Types.IndexMatchResult.t), string),
@@ -88,7 +88,7 @@ let compareIndexScoreObject =
     | None => min_int
     };
 
-  compareScores(score1, score2, term1, term2);
+  _compareScores(score1, score2, term1, term2);
 };
 
 /* Compare two matches */
@@ -102,7 +102,7 @@ let fuzzySortArray =
   let scoreArray =
     Array.map(item => (comparer(~line=item, ~pattern=query), item), inputs);
   Array.fast_sort(
-    (item1, item2) => compareScoreObject(item1, item2),
+    (item1, item2) => compareScores(item1, item2),
     scoreArray,
   );
 
@@ -115,7 +115,7 @@ let fuzzySortList =
     List.map(item => (comparer(~line=item, ~pattern=query), item), inputs);
   let sortedList =
     List.fast_sort(
-      (item1, item2) => compareScoreObject(item1, item2),
+      (item1, item2) => compareScores(item1, item2),
       scoreList,
     );
 
@@ -127,7 +127,7 @@ let indexFuzzySortArray =
   let scoreArray =
     Array.map(item => (comparer(~line=item, ~pattern=query), item), inputs);
   Array.fast_sort(
-    (item1, item2) => compareIndexScoreObject(item1, item2),
+    (item1, item2) => compareIndexScores(item1, item2),
     scoreArray,
   );
 
@@ -140,7 +140,7 @@ let indexFuzzySortList =
     List.map(item => (comparer(~line=item, ~pattern=query), item), inputs);
   let sortedList =
     List.fast_sort(
-      (item1, item2) => compareIndexScoreObject(item1, item2),
+      (item1, item2) => compareIndexScores(item1, item2),
       scoreList,
     );
 
