@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@esy-ocaml/reason": "*",
-    "@opam/dune": "1.7.3",
+    "@opam/dune": "^1.7.3",
     "ocaml": "^4.7.0",
     "@reason-native/console": "^0.0.3",
     "refmterr": "*",
@@ -23,6 +23,7 @@
     "reperf": "^1.4.0"
   },
   "devDependencies": {
-    "@opam/merlin": "*"
+    "@opam/merlin": "*",
+    "ocaml": "4.8.1000"
   }
 }
