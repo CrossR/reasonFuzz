@@ -1,5 +1,5 @@
 {
-  "checksum": "e4390c38bd8824c64272447055449056",
+  "checksum": "4b450f91fb0bb7eae3f681f88237edb3",
   "root": "reasonfuzz@link-dev:./package.json",
   "node": {
     "reperf@1.4.0@d41d8cd9": {
@@ -53,13 +53,28 @@
       "overrides": [ "test.json" ],
       "dependencies": [
         "reperf@1.4.0@d41d8cd9", "refmterr@3.2.2@d41d8cd9",
-        "ocaml@4.8.1000@d41d8cd9", "@reason-native/rely@1.3.1@d41d8cd9",
+        "reason-fzy@link:../reason-fzy", "ocaml@4.8.1000@d41d8cd9",
+        "@reason-native/rely@1.3.1@d41d8cd9",
         "@reason-native/console@0.0.3@d41d8cd9",
         "@opam/dune@opam:1.11.3@9894df55", "@esy-ocaml/reason@3.5.2@d41d8cd9"
       ],
       "devDependencies": [
         "ocaml@4.8.1000@d41d8cd9", "@opam/merlin@opam:3.3.2@7a364181"
       ]
+    },
+    "reason-fzy@link:../reason-fzy": {
+      "id": "reason-fzy@link:../reason-fzy",
+      "name": "reason-fzy",
+      "version": "link:../reason-fzy",
+      "source": { "type": "link", "path": "../reason-fzy" },
+      "overrides": [],
+      "dependencies": [
+        "reperf@1.4.0@d41d8cd9", "refmterr@3.2.2@d41d8cd9",
+        "ocaml@4.8.1000@d41d8cd9", "esy-fzy@link:../esy-fzy",
+        "@reason-native/rely@1.3.1@d41d8cd9",
+        "@opam/dune@opam:1.11.3@9894df55", "@esy-ocaml/reason@3.5.2@d41d8cd9"
+      ],
+      "devDependencies": [ "ocaml@4.8.1000@d41d8cd9" ]
     },
     "ocaml@4.8.1000@d41d8cd9": {
       "id": "ocaml@4.8.1000@d41d8cd9",
@@ -71,6 +86,15 @@
           "archive:https://registry.npmjs.org/ocaml/-/ocaml-4.8.1000.tgz#sha1:abc435b5d4ddea2acba8b2df7efb81e2d1690db1"
         ]
       },
+      "overrides": [],
+      "dependencies": [],
+      "devDependencies": []
+    },
+    "esy-fzy@link:../esy-fzy": {
+      "id": "esy-fzy@link:../esy-fzy",
+      "name": "esy-fzy",
+      "version": "link:../esy-fzy",
+      "source": { "type": "link", "path": "../esy-fzy" },
       "overrides": [],
       "dependencies": [],
       "devDependencies": []
