@@ -2,5 +2,5 @@
     (name Path_Fuzzy_Test)
     (library_flags (-linkall -g))
     (modules (:standard))
-    (libraries rely.lib console.lib ReasonFuzz Generic_Fuzzy_Test Fzy)
+    (libraries rely.lib console.lib ReasonFuzz Generic_Fuzzy_Test)
 )

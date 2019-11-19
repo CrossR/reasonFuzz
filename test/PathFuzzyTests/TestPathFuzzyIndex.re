@@ -8,22 +8,6 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     expect.equal(result, None);
   });
 
-  test("Test new lib", ({expect}) => {
-    Fzy.test();
-    expect.equal(true, true);
-  });
-
-  test("Test new lib 2", ({expect}) => {
-    Console.log("Init choice...");
-    Console.log("Add choice...");
-    Console.log("Search choice...");
-    Console.log("Score from choice...");
-    // let score = Fzy.init()->Fzy.add("packages/core/src/main.tex")->Fzy.search("main")->Fzy.getScore(0);
-    Fzy.init()->Fzy.add("packages/core/src/main.tex");
-    Console.log(score);
-    expect.equal(score, 3.79);
-  });
-
   test("Does match when possible", ({expect}) => {
     let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);

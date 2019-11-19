@@ -15,5 +15,13 @@ Path_Fuzzy_Test.TestFramework.run(
     Rely.RunConfig.initialize(),
   ),
 );
+
+Fzy_Fuzzy_Test.TestFramework.run(
+  Rely.RunConfig.withReporters(
+    [Default, JUnit(jUnitOutputFile)],
+    Rely.RunConfig.initialize(),
+  ),
+);
+
 ReasonFuzzBench.BenchFramework.cli();
 Console.log("");
