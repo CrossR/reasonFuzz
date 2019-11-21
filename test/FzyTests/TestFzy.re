@@ -5,9 +5,11 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   test("Test fuzzy on basic test", ({expect}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
+
     let score = Fzy.searchForItem(testList, testString);
-    expect.float(score[1]).toBeCloseTo(0.0);
-    expect.float(score[0]).toBeCloseTo(2.815);
+
+    expect.float(score[0].score).toBeCloseTo(2.815);
+    expect.float(score[1].score).toBeCloseTo(0.0);
   });
 
   test("Test fzy on larger input", ({expect}) => {
@@ -19,8 +21,8 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
     let bestResult = ref("");
     let bestPositions = ref([||]);
 
-    bestScore := resultArray[0];
-    bestResult := TestArray.testInput[0];
+    bestScore := resultArray[0].score;
+    bestResult := resultArray[0].term;
     bestPositions := [||];
 
     /* Expected to fail, since we only return the scores. */
@@ -55,8 +57,8 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
     let bestResult = ref("");
     let bestPositions = ref([||]);
 
-    bestScore := resultArray[0];
-    bestResult := TestArray.linuxTest[0];
+    bestScore := resultArray[0].score;
+    bestResult := resultArray[0].term;
     bestPositions := [||];
 
     /* Expected to fail, since we only return the scores. */
