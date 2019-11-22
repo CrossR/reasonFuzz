@@ -17,9 +17,9 @@ jobs:
     STAGING_DIRECTORY_UNIX: /home/vsts/STAGING
 
   steps:
-  - template: .ci/restore-build-cache.yml
+  # - template: .ci/restore-build-cache.yml
   - template: .ci/esy-build-steps.yml
-  - template: .ci/publish-build-cache.yml
+  # - template: .ci/publish-build-cache.yml
 
 - job: MacOS
   timeoutInMinutes: 0
@@ -33,9 +33,9 @@ jobs:
     STAGING_DIRECTORY_UNIX: /Users/vsts/STAGING
 
   steps:
-  - template: .ci/restore-build-cache.yml
+  # - template: .ci/restore-build-cache.yml
   - template: .ci/esy-build-steps.yml
-  - template: .ci/publish-build-cache.yml
+  # - template: .ci/publish-build-cache.yml
 
 - job: Windows
   timeoutInMinutes: 0
@@ -49,6 +49,6 @@ jobs:
     STAGING_DIRECTORY_UNIX: /C/Users/VssAdministrator/STAGING
 
   steps:
-  - template: .ci/restore-build-cache.yml
+  # - template: .ci/restore-build-cache.yml
   - template: .ci/esy-build-steps.yml
-  - template: .ci/publish-build-cache.yml
+  # - template: .ci/publish-build-cache.yml
