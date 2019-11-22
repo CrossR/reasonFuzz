@@ -24,7 +24,7 @@
     "reason-fzy": "*"
   },
   "resolutions": {
-     "reason-fzy": "github:CrossR/reason-fzy#d44d86a",
+     "reason-fzy": "github:CrossR/reason-fzy#fa2d620",
      "esy-fzy": "github:CrossR/esy-fzy#7b46fa8"
   },
   "devDependencies": {
