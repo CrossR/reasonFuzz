@@ -11,6 +11,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
     expect.int(Array.length(score)).toBe(1);
     expect.float(score[0].score).toBeCloseTo(2.815);
     expect.string(score[0].term).toEqual("browser/SRC/index.ts");
+    expect.array(score[0].positions).toEqual([|8, 9, 10|])
   });
 
   test("Test fzy on larger input", ({expect}) => {
@@ -24,30 +25,29 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
 
     bestScore := resultArray[0].score;
     bestResult := resultArray[0].term;
-    bestPositions := [||];
+    bestPositions := resultArray[0].positions;
 
-    /* Expected to fail, since we only return the scores. */
     expect.int(Array.length(resultArray)).toBe(2);
     expect.float(bestScore^).toBeCloseTo(13.695);
     expect.string(bestResult^).toEqual(
       "./src/vs/base/parts/quickopen/common/quickOpenScorer.ts",
     );
-    // expect.array(bestPositions^).toEqual([|
-    //      37,
-    //      38,
-    //      39,
-    //      40,
-    //      41,
-    //      42,
-    //      43,
-    //      44,
-    //      45,
-    //      46,
-    //      47,
-    //      48,
-    //      49,
-    //      50,
-    //    |]);
+    expect.array(bestPositions^).toEqual([|
+         37,
+         38,
+         39,
+         40,
+         41,
+         42,
+         43,
+         44,
+         45,
+         46,
+         47,
+         48,
+         49,
+         50,
+       |]);
   });
 
   test("Test fzy on even larger input", ({expect}) => {
@@ -61,29 +61,28 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
 
     bestScore := resultArray[0].score;
     bestResult := resultArray[0].term;
-    bestPositions := [||];
+    bestPositions := resultArray[0].positions;
 
-    /* Expected to fail, since we only return the scores. */
     expect.int(Array.length(resultArray)).toBe(3);
     expect.float(bestScore^).toBeCloseTo(13.79);
     expect.string(bestResult^).toEqual(
       "./drivers/regulator/gpio-regulator.c",
     );
-    // expect.array(bestPositions^).toEqual([|
-    //   20,
-    //   21,
-    //   22,
-    //   23,
-    //   24,
-    //   25,
-    //   26,
-    //   27,
-    //   28,
-    //   29,
-    //   30,
-    //   31,
-    //   32,
-    //   33,
-    // |]);
+    expect.array(bestPositions^).toEqual([|
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+    |]);
   });
 });
