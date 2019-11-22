@@ -99,28 +99,22 @@ let benchLinuxSearch = () => {
 let options = Reperf.Options.create(~iterations=1, ());
 
 bench(
-  ~name="General Index: Single Bench",
+  ~name="General: Single Bench",
   ~options,
   ~setup,
   ~f=benchSingleMatch,
   (),
 );
+bench(~name="General: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
 bench(
-  ~name="General Index: Basic Bench",
-  ~options,
-  ~setup,
-  ~f=benchBasic,
-  (),
-);
-bench(
-  ~name="General Index: VSCode Bench",
+  ~name="General: VSCode Bench",
   ~options,
   ~setup,
   ~f=benchVSCodeSearch,
   (),
 );
 bench(
-  ~name="General Index: Linux Bench",
+  ~name="General: Linux Bench",
   ~options,
   ~setup,
   ~f=benchLinuxSearch,

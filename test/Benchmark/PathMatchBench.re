@@ -72,14 +72,8 @@ let benchLinuxSearch = () => {
 
 let options = Reperf.Options.create(~iterations=1, ());
 
-bench(
-  ~name="Path Index: Single Bench",
-  ~options,
-  ~setup,
-  ~f=benchSingleMatch,
-  (),
-);
-bench(~name="Path Index: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
+bench(~name="Path: Single Bench", ~options, ~setup, ~f=benchSingleMatch, ());
+bench(~name="Path: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
 bench(
   ~name="Path Index: VSCode Bench",
   ~options,
@@ -87,17 +81,5 @@ bench(
   ~f=benchVSCodeSearch,
   (),
 );
-bench(
-  ~name="Path Index: Oni2 Bench",
-  ~options,
-  ~setup,
-  ~f=benchOniSearch,
-  (),
-);
-bench(
-  ~name="Path Index: Linux Bench",
-  ~options,
-  ~setup,
-  ~f=benchLinuxSearch,
-  (),
-);
+bench(~name="Path: Oni2 Bench", ~options, ~setup, ~f=benchOniSearch, ());
+bench(~name="Path: Linux Bench", ~options, ~setup, ~f=benchLinuxSearch, ());
