@@ -25,7 +25,7 @@
   },
   "resolutions": {
      "reason-fzy": "github:CrossR/reason-fzy#d44d86a",
-     "esy-fzy": "github:CrossR/esy-fzy#b29a388"
+     "esy-fzy": "github:CrossR/esy-fzy#7b46fa8"
   },
   "devDependencies": {
     "@opam/merlin": "*",
