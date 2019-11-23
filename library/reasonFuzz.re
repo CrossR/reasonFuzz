@@ -7,16 +7,13 @@
  */
 
 /* General fuzzy matcher that will return just a score */
-let generalFuzzyMatch = Matchers.General.fuzzyMatch;
+let generalMatcher = Matchers.General;
 
-/* General fuzzy matcher that will return both a score, and the match locations. */
-let generalIndexMatch = Matchers.General.fuzzyIndicies;
+/* A path specific fuzzy matcher */
+let pathMatcher = Matchers.Path;
 
-/* A path specific fuzzy matcher that will return just a score */
-let pathFuzzyMatch = Matchers.Path.fuzzyMatch;
-
-/* A path specific fuzzy matcher that will return both a score, and the match locations. */
-let pathIndexMatch = Matchers.Path.fuzzyIndicies;
+/* Fzy-powered matcher */
+let fzy = Fzy;
 
 /* Wrappers */
 let fuzzySortArray = Matchers.Wrappers.fuzzySortArray;

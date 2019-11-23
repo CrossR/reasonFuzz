@@ -21,11 +21,7 @@
     "refmterr": "*",
     "@reason-native/rely": "^1.3.1",
     "reperf": "^1.4.0",
-    "reason-fzy": "*"
-  },
-  "resolutions": {
-    "reason-fzy": "github:CrossR/reason-fzy#e42a4c2",
-    "esy-fzy": "github:CrossR/esy-fzy#d0accff"
+    "reason-fzy": "github:CrossR/reason-fzy#80dc13a"
   },
   "devDependencies": {
     "@opam/merlin": "*",
