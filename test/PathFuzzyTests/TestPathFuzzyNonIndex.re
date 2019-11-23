@@ -1,15 +1,15 @@
 open TestFramework;
 open Generic_Fuzzy_Test;
-open ReasonFuzz;
+open ReasonFuzz.PathMatcher;
 
 describe("Path : Match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect}) => {
-    let result = pathFuzzyMatch(~line="abc", ~pattern="abx");
+    let result = fuzzyMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect}) => {
-    let result = pathFuzzyMatch(~line="axbycz", ~pattern="abc");
+    let result = fuzzyMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
@@ -17,8 +17,8 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
-    let result1 = pathFuzzyMatch(~line=testList[0], ~pattern=testString);
-    let result2 = pathFuzzyMatch(~line=testList[1], ~pattern=testString);
+    let result1 = fuzzyMatch(~line=testList[0], ~pattern=testString);
+    let result2 = fuzzyMatch(~line=testList[1], ~pattern=testString);
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
@@ -49,7 +49,8 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
       "packages/core/test/oni/main.tex",
     |];
 
-    let resultArray = fuzzySortArray(testInputs, testPattern, pathFuzzyMatch);
+    let resultArray =
+      ReasonFuzz.fuzzySortArray(testInputs, testPattern, fuzzyMatch);
 
     expect.equal(resultArray[0], testInputs[0]);
   });
@@ -63,7 +64,8 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
 
     let testPattern = "aBE";
 
-    let resultArray = fuzzySortArray(testInputs, testPattern, pathFuzzyMatch);
+    let resultArray =
+      ReasonFuzz.fuzzySortArray(testInputs, testPattern, fuzzyMatch);
 
     expect.equal(resultArray[0], testInputs[2]);
   });
@@ -72,7 +74,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     let testPattern = "quickOpenScore";
 
     let resultArray =
-      fuzzySortArray(TestArray.testInput, testPattern, pathFuzzyMatch);
+      ReasonFuzz.fuzzySortArray(TestArray.testInput, testPattern, fuzzyMatch);
 
     expect.equal(
       resultArray[0],
@@ -84,7 +86,11 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     let testPattern = "token";
 
     let resultArray =
-      fuzzySortArray(TestArray.oniTestInput, testPattern, pathFuzzyMatch);
+      ReasonFuzz.fuzzySortArray(
+        TestArray.oniTestInput,
+        testPattern,
+        fuzzyMatch,
+      );
 
     expect.equal(resultArray[0], "src/editor/Model/Tokenizer.re");
   });
@@ -93,14 +99,14 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     let testPattern = "gpio-regulator";
 
     let resultArray =
-      fuzzySortArray(TestArray.linuxTest, testPattern, pathFuzzyMatch);
+      ReasonFuzz.fuzzySortArray(TestArray.linuxTest, testPattern, fuzzyMatch);
 
     expect.equal(resultArray[0], "./drivers/regulator/gpio-regulator.c");
   });
 
   test("Better match is picked", ({expect}) => {
-    let result1 = pathFuzzyMatch(~line="abcxyz", ~pattern="abc");
-    let result2 = pathFuzzyMatch(~line="abcxyz", ~pattern="acz");
+    let result1 = fuzzyMatch(~line="abcxyz", ~pattern="abc");
+    let result2 = fuzzyMatch(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);

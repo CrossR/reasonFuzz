@@ -1,10 +1,11 @@
 open BenchFramework;
 open Generic_Fuzzy_Test;
+open ReasonFuzz.PathMatcher;
 
 let setup = () => ();
 
 let benchSingleMatch = () => {
-  let _ = ReasonFuzz.pathIndexMatch(~line="axbycz", ~pattern="abc");
+  let _ = fuzzyIndicies(~line="axbycz", ~pattern="abc");
   ();
 };
 
@@ -21,8 +22,7 @@ let benchBasic = () => {
   let bestMatchIndex = ref([||]);
 
   for (i in 0 to Array.length(testInputs) - 1) {
-    let result =
-      ReasonFuzz.pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+    let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
 
     let (score, indexes) =
       switch (result) {
@@ -42,11 +42,7 @@ let benchBasic = () => {
 
 let benchOniSearch = () => {
   let _ =
-    ReasonFuzz.fuzzySortArray(
-      TestArray.oniTestInput,
-      "token",
-      ReasonFuzz.pathFuzzyMatch,
-    );
+    ReasonFuzz.fuzzySortArray(TestArray.oniTestInput, "token", fuzzyMatch);
   ();
 };
 
@@ -55,7 +51,7 @@ let benchVSCodeSearch = () => {
     ReasonFuzz.fuzzySortArray(
       TestArray.testInput,
       "quickOpenScore",
-      ReasonFuzz.pathFuzzyMatch,
+      fuzzyMatch,
     );
   ();
 };
@@ -65,7 +61,7 @@ let benchLinuxSearch = () => {
     ReasonFuzz.fuzzySortArray(
       TestArray.linuxTest,
       "gpio-regulator",
-      ReasonFuzz.pathFuzzyMatch,
+      fuzzyMatch,
     );
   ();
 };

@@ -1,10 +1,11 @@
 open BenchFramework;
 open Generic_Fuzzy_Test;
+open ReasonFuzz.GeneralMatcher;
 
 let setup = () => ();
 
 let benchSingleMatch = () => {
-  let _ = ReasonFuzz.generalIndexMatch(~line="axbycz", ~pattern="abc");
+  let _ = fuzzyIndicies(~line="axbycz", ~pattern="abc");
   ();
 };
 
@@ -21,8 +22,7 @@ let benchBasic = () => {
   let bestMatchIndex = ref([||]);
 
   for (i in 0 to Array.length(testInputs) - 1) {
-    let result =
-      ReasonFuzz.generalIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+    let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
 
     let (score, indexes) =
       switch (result) {
@@ -47,10 +47,7 @@ let benchVSCodeSearch = () => {
 
   for (i in 0 to Array.length(TestArray.testInput) - 1) {
     let result =
-      ReasonFuzz.generalIndexMatch(
-        ~line=TestArray.testInput[i],
-        ~pattern="quickOpenScore",
-      );
+      fuzzyIndicies(~line=TestArray.testInput[i], ~pattern="quickOpenScore");
 
     let (score, indexes) =
       switch (result) {
@@ -75,10 +72,7 @@ let benchLinuxSearch = () => {
 
   for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
     let result =
-      ReasonFuzz.generalIndexMatch(
-        ~line=TestArray.linuxTest[i],
-        ~pattern="gpio-regulator",
-      );
+      fuzzyIndicies(~line=TestArray.linuxTest[i], ~pattern="gpio-regulator");
 
     let (score, indexes) =
       switch (result) {

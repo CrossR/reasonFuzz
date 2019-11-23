@@ -7,13 +7,13 @@
  */
 
 /* General fuzzy matcher that will return just a score */
-let generalMatcher = Matchers.General;
+module GeneralMatcher = Matchers.General;
 
 /* A path specific fuzzy matcher */
-let pathMatcher = Matchers.Path;
+module PathMatcher = Matchers.Path;
 
 /* Fzy-powered matcher */
-let fzy = Fzy;
+module Fzy = Fzy;
 
 /* Wrappers */
 let fuzzySortArray = Matchers.Wrappers.fuzzySortArray;
