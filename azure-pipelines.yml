@@ -42,7 +42,7 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
 
-variables:
+  variables:
     STAGING_DIRECTORY: $(Build.StagingDirectory)
     ESY__CACHE_INSTALL_PATH: /C/Users/VssAdministrator/.esy/3_/i
     ESY__CACHE_SOURCE_TARBALL_PATH: /C/Users/VssAdministrator/.esy/source/i
