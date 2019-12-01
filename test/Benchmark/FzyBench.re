@@ -5,7 +5,7 @@ open ReasonFuzz.Fzy;
 let setup = () => ();
 
 let benchSingleMatch = () => {
-  let _ = searchForItem([|"axbycz"|], "abc");
+  let _ = fzySearchArray([|"axbycz"|], "abc");
   ();
 };
 
@@ -17,24 +17,24 @@ let benchBasic = () => {
     "packages/core/test/oni/main.tex",
   |];
 
-  let _ = searchForItem(testInputs, testPattern);
+  let _ = fzySearchArray(testInputs, testPattern);
 
   ();
 };
 
 let benchOniSearch = () => {
-  let _ = searchForItem(TestArray.oniTestInput, "token");
+  let _ = fzySearchArray(TestArray.oniTestInput, "token");
 
   ();
 };
 
 let benchVSCodeSearch = () => {
-  let _ = searchForItem(TestArray.testInput, "quickOpenScore");
+  let _ = fzySearchArray(TestArray.testInput, "quickOpenScore");
   ();
 };
 
 let benchLinuxSearch = () => {
-  let _ = searchForItem(TestArray.linuxTest, "gpio-regulator");
+  let _ = fzySearchArray(TestArray.linuxTest, "gpio-regulator");
   ();
 };
 

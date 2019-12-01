@@ -7,7 +7,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
-    let score = searchForItem(testList, testString);
+    let score = fzySearchArray(testList, testString);
 
     expect.int(Array.length(score)).toBe(1);
     expect.float(score[0].score).toBeCloseTo(2.815);
@@ -18,7 +18,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   test("Works for larger test: VSCode Test", ({expect}) => {
     let testPattern = "quickOpenScore";
 
-    let resultArray = searchForItem(TestArray.testInput, testPattern);
+    let resultArray = fzySearchArray(TestArray.testInput, testPattern);
 
     let bestScore = ref(0.0);
     let bestResult = ref("");
@@ -54,7 +54,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   test("Works for very large test: Linux Kernel", ({expect}) => {
     let testPattern = "gpio-regulator";
 
-    let resultArray = searchForItem(TestArray.linuxTest, testPattern);
+    let resultArray = fzySearchArray(TestArray.linuxTest, testPattern);
 
     let bestScore = ref(0.0);
     let bestResult = ref("");
@@ -88,12 +88,12 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   });
 
   test("Doesn't match index when not possible", ({expect}) => {
-    let result = searchForItem([|"abc"|], "abx");
+    let result = fzySearchArray([|"abc"|], "abx");
     expect.equal(result, [||]);
   });
 
   test("Does match when possible", ({expect}) => {
-    let result = searchForItem([|"axbycz"|], "abc");
+    let result = fzySearchArray([|"axbycz"|], "abc");
     expect.notEqual(result, [||]);
   });
 
@@ -106,14 +106,14 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
       "packages/core/test/oni/main.tex",
     |];
 
-    let result = searchForItem(testInputs, testPattern);
+    let result = fzySearchArray(testInputs, testPattern);
 
     expect.equal(result[0].term, testInputs[0]);
     expect.array(result[0].positions).toEqual([|18, 19, 20, 21|]);
   });
 
   test("Index match is correct", ({expect}) => {
-    let result = searchForItem([|"axbycz"|], "abc");
+    let result = fzySearchArray([|"axbycz"|], "abc");
     expect.array(result[0].positions).toEqual([|0, 2, 4|]);
   });
 
@@ -125,7 +125,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
     |];
 
     let testPattern = "aBE";
-    let result = searchForItem(testInputs, testPattern);
+    let result = fzySearchArray(testInputs, testPattern);
 
     expect.equal(result[0].term, testInputs[2]);
     expect.array(result[0].positions).toEqual([|18, 21, 27|]);
@@ -138,7 +138,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   test("Works for large test: Oni2", ({expect}) => {
     let testPattern = "token";
 
-    let resultArray = searchForItem(TestArray.oniTestInput, testPattern);
+    let resultArray = fzySearchArray(TestArray.oniTestInput, testPattern);
 
     let bestScore = ref(0.0);
     let bestResult = ref("");
@@ -155,8 +155,8 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   });
 
   test("Better match is picked", ({expect}) => {
-    let result1 = searchForItem([|"abcxyz"|], "abc");
-    let result2 = searchForItem([|"abcxyz"|], "acz");
+    let result1 = fzySearchArray([|"abcxyz"|], "abc");
+    let result2 = fzySearchArray([|"abcxyz"|], "acz");
 
     expect.notEqual(result1, result2);
     expect.equal(result1[0].score > result2[0].score, true);
