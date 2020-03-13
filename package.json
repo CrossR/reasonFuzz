@@ -5,7 +5,8 @@
   "esy": {
     "build": "refmterr dune build --root . -j4",
     "install": [
-      "esy-installer ReasonFuzz.install", "esy-installer Matchers.install"
+      "esy-installer #{self.target_dir}/default/ReasonFuzz.install", 
+      "esy-installer #{self.target_dir}/default/Matchers.install"
     ]
   },
   "scripts": {
