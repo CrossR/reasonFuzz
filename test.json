@@ -5,7 +5,14 @@
             "dune build --root . -j4"
         ],
         "install": [
-            "esy-installer RunTests.install"
-        ]
+            "esy-installer #{self.target_dir}/default/RunTests.install"
+        ],
+        "dependencies": {
+            "@reason-native/rely": "^3.2.1"
+        }
+    },
+    "scripts": {
+        "test-ci": "esy @test x RunTestsCI",
+        "run": "esy @test x RunTests"
     }
 }

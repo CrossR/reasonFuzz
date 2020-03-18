@@ -1,17 +1,17 @@
 open TestFramework;
 
 describe("General: Match scores should be correct.", ({test, _}) => {
-  test("Doesn't match when not possible", ({expect}) => {
+  test("Doesn't match when not possible", ({expect, _}) => {
     let result = ReasonFuzz.generalFuzzyMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
-  test("Does match when possible", ({expect}) => {
+  test("Does match when possible", ({expect, _}) => {
     let result = ReasonFuzz.generalFuzzyMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
-  test("Better match is picked", ({expect}) => {
+  test("Better match is picked", ({expect, _}) => {
     let result1 =
       ReasonFuzz.generalFuzzyMatch(~line="abcxyz", ~pattern="abc");
     let result2 =

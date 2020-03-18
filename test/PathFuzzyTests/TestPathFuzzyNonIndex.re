@@ -3,17 +3,17 @@ open Generic_Fuzzy_Test;
 open ReasonFuzz;
 
 describe("Path : Match scores should be correct.", ({test, _}) => {
-  test("Doesn't match index when not possible", ({expect}) => {
+  test("Doesn't match index when not possible", ({expect, _}) => {
     let result = pathFuzzyMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
-  test("Does match when possible", ({expect}) => {
+  test("Does match when possible", ({expect, _}) => {
     let result = pathFuzzyMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
-  test("Correctly score case-match higher", ({expect}) => {
+  test("Correctly score case-match higher", ({expect, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
@@ -41,7 +41,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect}) => {
+    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",
@@ -54,7 +54,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     expect.equal(resultArray[0], testInputs[0]);
   });
 
-  test("Correctly sorts results for fuzzy match.", ({expect}) => {
+  test("Correctly sorts results for fuzzy match.", ({expect, _}) => {
     let testInputs = [|
       "packages/demo/src/BufferEditor.ts",
       "packages/demo/src/BufferEditorContainer.ts",
@@ -68,7 +68,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     expect.equal(resultArray[0], testInputs[2]);
   });
 
-  test("Works for large input", ({expect}) => {
+  test("Works for large input", ({expect, _}) => {
     let testPattern = "quickOpenScore";
 
     let resultArray =
@@ -80,7 +80,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     );
   });
 
-  test("Works for Oni src input", ({expect}) => {
+  test("Works for Oni src input", ({expect, _}) => {
     let testPattern = "token";
 
     let resultArray =
@@ -89,7 +89,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     expect.equal(resultArray[0], "src/editor/Model/Tokenizer.re");
   });
 
-  test("Work for even larger input", ({expect}) => {
+  test("Work for even larger input", ({expect, _}) => {
     let testPattern = "gpio-regulator";
 
     let resultArray =
@@ -98,7 +98,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     expect.equal(resultArray[0], "./drivers/regulator/gpio-regulator.c");
   });
 
-  test("Better match is picked", ({expect}) => {
+  test("Better match is picked", ({expect, _}) => {
     let result1 = pathFuzzyMatch(~line="abcxyz", ~pattern="abc");
     let result2 = pathFuzzyMatch(~line="abcxyz", ~pattern="acz");
 

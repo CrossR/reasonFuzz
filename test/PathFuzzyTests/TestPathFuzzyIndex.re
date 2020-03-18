@@ -3,17 +3,17 @@ open Generic_Fuzzy_Test;
 open ReasonFuzz;
 
 describe("Path Index: Match scores should be correct.", ({test, _}) => {
-  test("Doesn't match index when not possible", ({expect}) => {
+  test("Doesn't match index when not possible", ({expect, _}) => {
     let result = pathIndexMatch(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
-  test("Does match when possible", ({expect}) => {
+  test("Does match when possible", ({expect, _}) => {
     let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
-  test("Correctly score case-match higher", ({expect}) => {
+  test("Correctly score case-match higher", ({expect, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
@@ -43,7 +43,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect}) => {
+    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",
@@ -76,7 +76,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     expect.array(bestMatchIndex^).toEqual([|18, 19, 20, 21|]);
   });
 
-  test("Index match is correct", ({expect}) => {
+  test("Index match is correct", ({expect, _}) => {
     let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
 
     let matches =
@@ -88,7 +88,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     expect.array(matches).toEqual([|0, 2, 4|]);
   });
 
-  test("Correctly sorts results for fuzzy match.", ({expect}) => {
+  test("Correctly sorts results for fuzzy match.", ({expect, _}) => {
     let testInputs = [|
       "packages/demo/src/BufferEditor.ts",
       "packages/demo/src/BufferEditorContainer.ts",
@@ -121,7 +121,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     expect.array(bestMatchIndex^).toEqual([|18, 21, 27|]);
   });
 
-  test("Works for large input", ({expect}) => {
+  test("Works for large input", ({expect, _}) => {
     let bestMatch = ref("");
     let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
@@ -169,7 +169,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     |]);
   });
 
-  test("Works for Oni src input", ({expect}) => {
+  test("Works for Oni src input", ({expect, _}) => {
     let bestMatch = ref("");
     let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
@@ -196,7 +196,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     expect.array(bestMatchIndex^).toEqual([|17, 18, 19, 20, 21|]);
   });
 
-  test("Work for even larger input", ({expect}) => {
+  test("Work for even larger input", ({expect, _}) => {
     let bestMatch = ref("");
     let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
@@ -241,7 +241,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     |]);
   });
 
-  test("Better match is picked", ({expect}) => {
+  test("Better match is picked", ({expect, _}) => {
     let result1 = pathIndexMatch(~line="abcxyz", ~pattern="abc");
     let result2 = pathIndexMatch(~line="abcxyz", ~pattern="acz");
 
