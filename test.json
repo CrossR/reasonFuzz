@@ -8,7 +8,9 @@
             "esy-installer #{self.target_dir}/default/RunTests.install"
         ],
         "dependencies": {
-            "@reason-native/rely": "^3.2.1"
+            "@reason-native/rely": "^3.2.1",
+            "@reason-native/console": "^0.1.0",
+            "reperf": "^1.4.0"
         }
     },
     "scripts": {

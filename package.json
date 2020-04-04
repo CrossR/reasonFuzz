@@ -13,12 +13,10 @@
     "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {
+    "@opam/dune": "*",
     "@esy-ocaml/reason": "*",
-    "@opam/dune": "^1.7.3",
     "ocaml": "^4.7.0",
-    "@reason-native/console": "^0.0.3",
     "refmterr": "*",
-    "reperf": "^1.4.0",
     "reason-fzy": "github:CrossR/reason-fzy#6d19968"
   },
   "devDependencies": {

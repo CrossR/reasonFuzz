@@ -100,34 +100,6 @@ let skipPenalty = (_cId: int, char: Char.t, lastAction: Action.t) => {
 
 /*--------------------------------------------------------------------*/
 
-let _debugDp = (line: string, pattern: string, dp: array(array(Score.t))) => {
-  let lineLen = String.length(line);
-  let patternLen = String.length(pattern);
-
-  Console.out("\t");
-  for (id in 0 to lineLen - 1) {
-    let ch = line.[id];
-    Console.out(
-      "\t\t" ++ string_of_int(id + 1) ++ "/" ++ String.make(1, ch),
-    );
-  };
-
-  for (row in 0 to patternLen) {
-    Console.out("\n" ++ string_of_int(row) ++ "\t");
-    for (col in 0 to lineLen) {
-      let cell = dp[row][col];
-      let result1 = cell.lastActionMiss == Action.Miss ? "X" : "O";
-      let result2 = cell.lastActionMatch == Action.Miss ? "X" : "O";
-      Console.out(
-        "(" ++ string_of_int(cell.missScore) ++ "," ++ result1 ++ ")",
-      );
-      Console.out(
-        "/(" ++ string_of_int(cell.matchScore) ++ "," ++ result2 ++ ")\t",
-      );
-    };
-  };
-};
-
 let buildGraph = (line: string, pattern: string, compressed: bool) => {
   let lineLen = String.length(line);
   let patternLen = String.length(pattern);

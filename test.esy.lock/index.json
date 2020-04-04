@@ -1,5 +1,5 @@
 {
-  "checksum": "fa2d9dc8ea33ecf67d65a8e5d7137b68",
+  "checksum": "73acc1d7d141d54df6b8242ed950f220",
   "root": "reasonfuzz@link-dev:./package.json",
   "node": {
     "reperf@1.5.0@d41d8cd9": {
@@ -34,7 +34,7 @@
       "overrides": [],
       "dependencies": [
         "ocaml@4.8.1000@d41d8cd9", "@reason-native/pastel@0.1.0@d41d8cd9",
-        "@reason-native/console@0.0.3@d41d8cd9",
+        "@reason-native/console@0.1.0@d41d8cd9",
         "@opam/re@opam:1.9.0@d4d5e13d", "@opam/dune@opam:2.4.0@639d28a3",
         "@opam/atdgen@opam:2.0.0@46af0360",
         "@esy-ocaml/reason@3.6.0@d41d8cd9"
@@ -55,7 +55,7 @@
         "reperf@1.5.0@d41d8cd9", "refmterr@3.3.0@d41d8cd9",
         "reason-fzy@github:CrossR/reason-fzy#6d19968@d41d8cd9",
         "ocaml@4.8.1000@d41d8cd9", "@reason-native/rely@3.2.1@d41d8cd9",
-        "@reason-native/console@0.0.3@d41d8cd9",
+        "@reason-native/console@0.1.0@d41d8cd9",
         "@opam/dune@opam:2.4.0@639d28a3", "@esy-ocaml/reason@3.6.0@d41d8cd9"
       ],
       "devDependencies": [
@@ -160,14 +160,14 @@
       ],
       "devDependencies": []
     },
-    "@reason-native/console@0.0.3@d41d8cd9": {
-      "id": "@reason-native/console@0.0.3@d41d8cd9",
+    "@reason-native/console@0.1.0@d41d8cd9": {
+      "id": "@reason-native/console@0.1.0@d41d8cd9",
       "name": "@reason-native/console",
-      "version": "0.0.3",
+      "version": "0.1.0",
       "source": {
         "type": "install",
         "source": [
-          "archive:https://registry.npmjs.org/@reason-native/console/-/console-0.0.3.tgz#sha1:b9b6bdf800e13361cfb4daccb540316c3a11ce38"
+          "archive:https://registry.npmjs.org/@reason-native/console/-/console-0.1.0.tgz#sha1:3b56f0e9e1be8464329793df29020aa90e71c22c"
         ]
       },
       "overrides": [],
