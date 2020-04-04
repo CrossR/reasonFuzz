@@ -41,7 +41,8 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
+    "Correctly sorts results for shortest result on file name.",
+    ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",
@@ -74,7 +75,7 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     let testPattern = "quickOpenScore";
 
     let resultArray =
-      ReasonFuzz.fuzzySortArray(TestArray.testInput, testPattern, fuzzyMatch);
+      ReasonFuzz.fuzzySortArray(TestArray.vscodeInput, testPattern, fuzzyMatch);
 
     expect.equal(
       resultArray[0],

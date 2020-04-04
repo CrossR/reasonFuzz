@@ -17,24 +17,9 @@ let benchBasic = () => {
     "packages/core/test/oni/main.tex",
   |];
 
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
   for (i in 0 to Array.length(testInputs) - 1) {
-    let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := testInputs[i];
-      bestMatchIndex := indexes;
-    };
+    let _ = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
+    ();
   };
 
   ();
@@ -49,7 +34,7 @@ let benchOniSearch = () => {
 let benchVSCodeSearch = () => {
   let _ =
     ReasonFuzz.fuzzySortArray(
-      TestArray.testInput,
+      TestArray.vscodeInput,
       "quickOpenScore",
       fuzzyMatch,
     );

@@ -18,7 +18,7 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   test("Works for larger test: VSCode Test", ({expect, _}) => {
     let testPattern = "quickOpenScore";
 
-    let resultArray = fzySearchArray(TestArray.testInput, testPattern);
+    let resultArray = fzySearchArray(TestArray.vscodeInput, testPattern);
 
     let bestScore = ref(0.0);
     let bestResult = ref("");
@@ -98,7 +98,8 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
+    "Correctly sorts results for shortest result on file name.",
+    ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",

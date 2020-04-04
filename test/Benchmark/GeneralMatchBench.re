@@ -17,74 +17,29 @@ let benchBasic = () => {
     "packages/core/test/oni/main.tex",
   |];
 
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
   for (i in 0 to Array.length(testInputs) - 1) {
-    let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := testInputs[i];
-      bestMatchIndex := indexes;
-    };
+    let _ = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
+    ();
   };
 
   ();
 };
 
 let benchVSCodeSearch = () => {
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
-  for (i in 0 to Array.length(TestArray.testInput) - 1) {
-    let result =
-      fuzzyIndicies(~line=TestArray.testInput[i], ~pattern="quickOpenScore");
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := TestArray.testInput[i];
-      bestMatchIndex := indexes;
-    };
+  for (i in 0 to Array.length(TestArray.vscodeInput) - 1) {
+    let _ =
+      fuzzyIndicies(~line=TestArray.vscodeInput[i], ~pattern="quickOpenScore");
+    ();
   };
 
   ();
 };
 
 let benchLinuxSearch = () => {
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
   for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
-    let result =
+    let _ =
       fuzzyIndicies(~line=TestArray.linuxTest[i], ~pattern="gpio-regulator");
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := TestArray.linuxTest[i];
-      bestMatchIndex := indexes;
-    };
+    ();
   };
 
   ();

@@ -43,7 +43,8 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
+    "Correctly sorts results for shortest result on file name.",
+    ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",
@@ -126,10 +127,10 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
 
-    for (i in 0 to Array.length(TestArray.testInput) - 1) {
+    for (i in 0 to Array.length(TestArray.vscodeInput) - 1) {
       let result =
         fuzzyIndicies(
-          ~line=TestArray.testInput[i],
+          ~line=TestArray.vscodeInput[i],
           ~pattern="quickOpenScore",
         );
 
@@ -141,7 +142,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
 
       if (score > bestScore^) {
         bestScore := score;
-        bestMatch := TestArray.testInput[i];
+        bestMatch := TestArray.vscodeInput[i];
         bestMatchIndex := indexes;
       };
     };

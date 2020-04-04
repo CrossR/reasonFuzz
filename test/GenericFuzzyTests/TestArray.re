@@ -1,4 +1,4 @@
-let testInput = [|
+let vscodeInput = [|
   ".",
   "./product.json",
   "./tsfmt.json",

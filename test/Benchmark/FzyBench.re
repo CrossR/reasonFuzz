@@ -29,7 +29,7 @@ let benchOniSearch = () => {
 };
 
 let benchVSCodeSearch = () => {
-  let _ = fzySearchArray(TestArray.testInput, "quickOpenScore");
+  let _ = fzySearchArray(TestArray.vscodeInput, "quickOpenScore");
   ();
 };
 
