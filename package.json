@@ -17,7 +17,7 @@
     "@esy-ocaml/reason": "*",
     "ocaml": "^4.7.0",
     "refmterr": "*",
-    "reason-fzy": "github:CrossR/reason-fzy#6d19968"
+    "reason-fzy": "github:CrossR/reason-fzy#4954ae0"
   },
   "devDependencies": {
     "@opam/merlin": "*",
