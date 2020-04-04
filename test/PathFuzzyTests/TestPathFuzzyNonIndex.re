@@ -75,7 +75,11 @@ describe("Path : Match scores should be correct.", ({test, _}) => {
     let testPattern = "quickOpenScore";
 
     let resultArray =
-      ReasonFuzz.fuzzySortArray(TestArray.vscodeInput, testPattern, fuzzyMatch);
+      ReasonFuzz.fuzzySortArray(
+        TestArray.vscodeInput,
+        testPattern,
+        fuzzyMatch,
+      );
 
     expect.equal(
       resultArray[0],

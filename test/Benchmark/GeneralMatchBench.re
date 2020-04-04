@@ -28,7 +28,10 @@ let benchBasic = () => {
 let benchVSCodeSearch = () => {
   for (i in 0 to Array.length(TestArray.vscodeInput) - 1) {
     let _ =
-      fuzzyIndicies(~line=TestArray.vscodeInput[i], ~pattern="quickOpenScore");
+      fuzzyIndicies(
+        ~line=TestArray.vscodeInput[i],
+        ~pattern="quickOpenScore",
+      );
     ();
   };
 
