@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "description": "Fuzzy string matching for ReasonML.",
   "esy": {
-    "build": "refmterr dune build --root . -j4",
+    "build": "refmterr dune build --root . --only-packages Matchers,ReasonFuzz -j4",
     "install": [
       "esy-installer #{self.target_dir}/default/ReasonFuzz.install", 
       "esy-installer #{self.target_dir}/default/Matchers.install"
     ]
   },
   "scripts": {
-    "test": "esy @test x RunTests",
-    "test-ci": "esy @test x RunTestsCI",
     "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {
@@ -20,9 +18,8 @@
     "ocaml": "^4.7.0",
     "@reason-native/console": "^0.0.3",
     "refmterr": "*",
-    "@reason-native/rely": "^1.3.1",
     "reperf": "^1.4.0",
-    "reason-fzy": "github:CrossR/reason-fzy#3ced609"
+    "reason-fzy": "github:CrossR/reason-fzy#6d19968"
   },
   "devDependencies": {
     "@opam/merlin": "*",

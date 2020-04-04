@@ -15,7 +15,7 @@ steps:
   - script: esy @test build
     displayName: 'esy @test build'
   - script: esy test-ci
-    displayName: 'esy test-ci'
+    displayName: 'esy @test test-ci'
     continueOnError: true
   - task: PublishTestResults@2
     displayName: 'Publish JUnit file'
