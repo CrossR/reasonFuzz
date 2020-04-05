@@ -44,8 +44,32 @@ let benchLinuxSearch = () => {
 
 let options = Reperf.Options.create(~iterations=1, ());
 
-bench(~name="Fzy [List]: Single Bench", ~options, ~setup, ~f=benchSingleMatch, ());
+bench(
+  ~name="Fzy [List]: Single Bench",
+  ~options,
+  ~setup,
+  ~f=benchSingleMatch,
+  (),
+);
 bench(~name="Fzy [List]: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
-bench(~name="Fzy [List]: VSCode Bench", ~options, ~setup, ~f=benchVSCodeSearch, ());
-bench(~name="Fzy [List]: Oni2 Bench", ~options, ~setup, ~f=benchOniSearch, ());
-bench(~name="Fzy [List]: Linux Bench", ~options, ~setup, ~f=benchLinuxSearch, ());
+bench(
+  ~name="Fzy [List]: VSCode Bench",
+  ~options,
+  ~setup,
+  ~f=benchVSCodeSearch,
+  (),
+);
+bench(
+  ~name="Fzy [List]: Oni2 Bench",
+  ~options,
+  ~setup,
+  ~f=benchOniSearch,
+  (),
+);
+bench(
+  ~name="Fzy [List]: Linux Bench",
+  ~options,
+  ~setup,
+  ~f=benchLinuxSearch,
+  (),
+);
