@@ -21,6 +21,7 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     /* Get back both the inputs. */
     expect.int(List.length(score)).toBe(2);
   });
+
   test("Works for basic test.", ({expect, _}) => {
     let testString = "SRC";
     let testList = ["browser/src/index.ts", "browser/SRC/index.ts"];
