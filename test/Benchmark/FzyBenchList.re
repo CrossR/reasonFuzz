@@ -42,7 +42,7 @@ let benchLinuxSearch = () => {
   ();
 };
 
-let options = Reperf.Options.create(~iterations=1, ());
+let options = Reperf.Options.create(~iterations=1000, ());
 
 bench(
   ~name="Fzy [List]: Single Bench",
