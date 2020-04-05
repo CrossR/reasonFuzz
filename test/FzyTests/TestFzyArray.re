@@ -2,7 +2,7 @@ open TestFramework;
 open Generic_Fuzzy_Test;
 open ReasonFuzz.Fzy;
 
-describe("Fzy: Match scores should be correct.", ({test, _}) => {
+describe("Fzy [Array]: Match scores should be correct.", ({test, _}) => {
   test("Works for basic test.", ({expect, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
