@@ -3,6 +3,24 @@ open Generic_Fuzzy_Test;
 open ReasonFuzz.Fzy;
 
 describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
+  test("Works for empty list.", ({expect, _}) => {
+    let testString = "SRC";
+    let testList = [];
+
+    let score = fzySearchList(testList, testString, ());
+
+    expect.int(List.length(score)).toBe(0);
+  });
+
+  test("Works for empty query.", ({expect, _}) => {
+    let testString = "";
+    let testList = ["browser/src/index.ts", "browser/SRC/index.ts"];
+
+    let score = fzySearchList(testList, testString, ());
+
+    /* Get back both the inputs. */
+    expect.int(List.length(score)).toBe(2);
+  });
   test("Works for basic test.", ({expect, _}) => {
     let testString = "SRC";
     let testList = ["browser/src/index.ts", "browser/SRC/index.ts"];

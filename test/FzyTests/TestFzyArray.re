@@ -3,11 +3,30 @@ open Generic_Fuzzy_Test;
 open ReasonFuzz.Fzy;
 
 describe("Fzy [Array]: Match scores should be correct.", ({test, _}) => {
+  test("Works for empty array.", ({expect, _}) => {
+    let testString = "SRC";
+    let testArray = [||];
+
+    let score = fzySearchArray(testArray, testString, ());
+
+    expect.int(Array.length(score)).toBe(0);
+  });
+
+  test("Works for empty query.", ({expect, _}) => {
+    let testString = "";
+    let testArray = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
+
+    let score = fzySearchArray(testArray, testString, ());
+
+    /* Get back both the inputs. */
+    expect.int(Array.length(score)).toBe(2);
+  });
+
   test("Works for basic test.", ({expect, _}) => {
     let testString = "SRC";
-    let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
+    let testArray = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
-    let score = fzySearchArray(testList, testString, ());
+    let score = fzySearchArray(testArray, testString, ());
 
     expect.int(Array.length(score)).toBe(1);
     expect.float(score[0].score).toBeCloseTo(2.815);
