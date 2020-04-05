@@ -18,7 +18,8 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
   test("Works for larger test: VSCode Test", ({expect, _}) => {
     let testPattern = "quickOpenScore";
 
-    let resultArray = fzySearchList(Array.to_list(TestArray.vscodeInput), testPattern, ());
+    let resultArray =
+      fzySearchList(Array.to_list(TestArray.vscodeInput), testPattern, ());
 
     let bestScore = ref(0.0);
     let bestResult = ref("");
