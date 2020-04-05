@@ -136,6 +136,26 @@ describe("Fzy: Match scores should be correct.", ({test, _}) => {
     expect.array(result[2].positions).toEqual([|4, 18, 24|]);
   });
 
+  test("Correctly doesn't sort results for fuzzy match", ({expect, _}) => {
+    let testInputs = [|
+      "packages/demo/src/BufferEditor.ts",
+      "packages/demo/src/BufferEditorContainer.ts",
+      "packages/core/src/astBackedEditing.ts",
+    |];
+
+    let testPattern = "aBE";
+    let result = fzySearchArray(testInputs, testPattern, ~sorted=false, ());
+
+    expect.equal(testInputs[0], result[0].term);
+    expect.array(result[0].positions).toEqual([|4, 18, 24|]);
+
+    expect.equal(testInputs[1], result[1].term);
+    expect.array(result[1].positions).toEqual([|4, 18, 24|]);
+
+    expect.equal(testInputs[2], result[2].term);
+    expect.array(result[2].positions).toEqual([|18, 21, 27|]);
+  });
+
   test("Works for large test: Oni2", ({expect, _}) => {
     let testPattern = "token";
 
