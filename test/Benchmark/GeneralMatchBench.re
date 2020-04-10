@@ -48,7 +48,7 @@ let benchLinuxSearch = () => {
   ();
 };
 
-let options = Reperf.Options.create(~iterations=10, ());
+let options = Reperf.Options.create(~iterations=1, ());
 
 bench(
   ~name="General: Single Bench",

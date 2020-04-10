@@ -51,7 +51,17 @@ let benchLinuxSearch = () => {
   ();
 };
 
-let options = Reperf.Options.create(~iterations=100, ());
+let benchLargeSearch = () => {
+  let _ =
+    ReasonFuzz.fuzzySortArray(
+      TestArray.largeAmountOfItems,
+      "item 1",
+      fuzzyMatch,
+    );
+  ();
+};
+
+let options = Reperf.Options.create(~iterations=1, ());
 
 bench(~name="Path: Single Bench", ~options, ~setup, ~f=benchSingleMatch, ());
 bench(~name="Path: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
@@ -64,3 +74,4 @@ bench(
 );
 bench(~name="Path: Oni2 Bench", ~options, ~setup, ~f=benchOniSearch, ());
 bench(~name="Path: Linux Bench", ~options, ~setup, ~f=benchLinuxSearch, ());
+bench(~name="Path: Large Bench", ~options, ~setup, ~f=benchLargeSearch, ());

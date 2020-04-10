@@ -7,6 +7,7 @@ let setup = () => ();
 let oniTestInput = Array.to_list(TestArray.oniTestInput);
 let vsCodeInput = Array.to_list(TestArray.vscodeInput);
 let linuxTest = Array.to_list(TestArray.linuxTest);
+let largeTest = Array.to_list(TestArray.largeAmountOfItems);
 
 let benchSingleMatch = () => {
   let _ = fzySearchList(["axbycz"], "abc", ());
@@ -42,7 +43,12 @@ let benchLinuxSearch = () => {
   ();
 };
 
-let options = Reperf.Options.create(~iterations=1000, ());
+let benchLargeSearch = () => {
+  let _ = fzySearchList(largeTest, "item 1", ());
+  ();
+};
+
+let options = Reperf.Options.create(~iterations=1, ());
 
 bench(
   ~name="Fzy [List]: Single Bench",
@@ -71,5 +77,12 @@ bench(
   ~options,
   ~setup,
   ~f=benchLinuxSearch,
+  (),
+);
+bench(
+  ~name="Fzy [List]: Large Bench",
+  ~options,
+  ~setup,
+  ~f=benchLargeSearch,
   (),
 );

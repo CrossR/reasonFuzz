@@ -38,7 +38,12 @@ let benchLinuxSearch = () => {
   ();
 };
 
-let options = Reperf.Options.create(~iterations=1000, ());
+let benchLargeSearch = () => {
+  let _ = fzySearchArray(TestArray.largeAmountOfItems, "item 1", ());
+  ();
+};
+
+let options = Reperf.Options.create(~iterations=1, ());
 
 bench(
   ~name="Fzy [Array]: Single Bench",
@@ -67,5 +72,12 @@ bench(
   ~options,
   ~setup,
   ~f=benchLinuxSearch,
+  (),
+);
+bench(
+  ~name="Fzy [Array]: Large Bench",
+  ~options,
+  ~setup,
+  ~f=benchLargeSearch,
   (),
 );
