@@ -40,20 +40,19 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     let resultArray =
       fzySearchList(Array.to_list(TestArray.vscodeInput), testPattern, ());
 
-    let bestScore = ref(0.0);
-    let bestResult = ref("");
-    let bestPositions = ref([||]);
-
-    bestScore := List.nth(resultArray, 0).score;
-    bestResult := List.nth(resultArray, 0).term;
-    bestPositions := List.nth(resultArray, 0).positions;
+    let bestScore = List.nth(resultArray, 0).score;
+    let bestResult = List.nth(resultArray, 0).term;
+    let bestPositions = List.nth(resultArray, 0).positions;
+    let bestIndex = List.nth(resultArray, 0).original_index;
 
     expect.int(List.length(resultArray)).toBe(2);
-    expect.float(bestScore^).toBeCloseTo(13.695);
-    expect.string(bestResult^).toEqual(
+    expect.float(bestScore).toBeCloseTo(13.695);
+    expect.string(bestResult).toEqual(
       "./src/vs/base/parts/quickopen/common/quickOpenScorer.ts",
     );
-    expect.array(bestPositions^).toEqual([|
+    expect.int(bestIndex).toBe(4638);
+    expect.string(bestResult).toEqual(TestArray.vscodeInput[bestIndex]);
+    expect.array(bestPositions).toEqual([|
       37,
       38,
       39,
@@ -77,20 +76,19 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     let resultArray =
       fzySearchList(Array.to_list(TestArray.linuxTest), testPattern, ());
 
-    let bestScore = ref(0.0);
-    let bestResult = ref("");
-    let bestPositions = ref([||]);
-
-    bestScore := List.nth(resultArray, 0).score;
-    bestResult := List.nth(resultArray, 0).term;
-    bestPositions := List.nth(resultArray, 0).positions;
+    let bestScore = List.nth(resultArray, 0).score;
+    let bestResult = List.nth(resultArray, 0).term;
+    let bestPositions = List.nth(resultArray, 0).positions;
+    let bestIndex = List.nth(resultArray, 0).original_index;
 
     expect.int(List.length(resultArray)).toBe(3);
-    expect.float(bestScore^).toBeCloseTo(13.79);
-    expect.string(bestResult^).toEqual(
+    expect.float(bestScore).toBeCloseTo(13.79);
+    expect.string(bestResult).toEqual(
       "./drivers/regulator/gpio-regulator.c",
     );
-    expect.array(bestPositions^).toEqual([|
+    expect.int(bestIndex).toBe(38826);
+    expect.string(bestResult).toEqual(TestArray.linuxTest[bestIndex]);
+    expect.array(bestPositions).toEqual([|
       20,
       21,
       22,
@@ -194,18 +192,17 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     let resultArray =
       fzySearchList(Array.to_list(TestArray.oniTestInput), testPattern, ());
 
-    let bestScore = ref(0.0);
-    let bestResult = ref("");
-    let bestPositions = ref([||]);
-
-    bestScore := List.nth(resultArray, 0).score;
-    bestResult := List.nth(resultArray, 0).term;
-    bestPositions := List.nth(resultArray, 0).positions;
+    let bestScore = List.nth(resultArray, 0).score;
+    let bestResult = List.nth(resultArray, 0).term;
+    let bestPositions = List.nth(resultArray, 0).positions;
+    let bestIndex = List.nth(resultArray, 0).original_index;
 
     expect.int(List.length(resultArray)).toBe(61);
-    expect.float(bestScore^).toBeCloseTo(4.78);
-    expect.string(bestResult^).toEqual("src/editor/Model/Tokenizer.re");
-    expect.array(bestPositions^).toEqual([|17, 18, 19, 20, 21|]);
+    expect.float(bestScore).toBeCloseTo(4.78);
+    expect.string(bestResult).toEqual("src/editor/Model/Tokenizer.re");
+    expect.int(bestIndex).toBe(416);
+    expect.string(bestResult).toEqual(TestArray.oniTestInput[bestIndex]);
+    expect.array(bestPositions).toEqual([|17, 18, 19, 20, 21|]);
   });
 
   test("Better match is picked", ({expect, _}) => {
