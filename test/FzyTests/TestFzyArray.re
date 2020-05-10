@@ -104,6 +104,33 @@ describe("Fzy [Array]: Match scores should be correct.", ({test, _}) => {
     |]);
   });
 
+  test("Produces sane results", ({expect, _}) => {
+    let testPattern = "si";
+    let largeAmountOfItems =
+      Array.init(100000, i =>
+        "Some item with a long name but with index " ++ string_of_int(i)
+      );
+
+    for (i in 0 to Array.length(largeAmountOfItems) - 1) {
+      let item = largeAmountOfItems[i];
+      if (String.length(item) < 42) {
+        expect.equal(item, "");
+      };
+    };
+
+    let resultArray = fzySearchArray(largeAmountOfItems, testPattern, ());
+
+    /* Check that the terms are not broken and the match positions make sense. */
+    for (i in 0 to Array.length(resultArray) - 1) {
+      let result = resultArray[i];
+      if (String.length(result.term) < 42) {
+        expect.equal(result.term, "");
+      };
+      expect.equal(Array.exists((c) => String.sub(c, 0, 5) == "Some " , largeAmountOfItems), true);
+      expect.equal(Array.exists((c) => c == -1, result.positions), false);
+    };
+  });
+
   test("Doesn't match index when not possible", ({expect, _}) => {
     let result = fzySearchArray([|"abc"|], "abx", ());
     expect.equal(result, [||]);
