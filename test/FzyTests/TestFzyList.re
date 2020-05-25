@@ -114,7 +114,7 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
       );
 
     for (i in 0 to List.length(largeAmountOfItems) - 1) {
-      let item = List.nth(largeAmountOfItems,i );
+      let item = List.nth(largeAmountOfItems, i);
       if (String.length(item) < 42) {
         expect.equal(item, "");
       };
@@ -123,13 +123,17 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     let resultArray = fzySearchList(largeAmountOfItems, testPattern, ());
 
     /* Check that the terms are not broken and the match positions make sense. */
+    expect.int(List.length(resultArray)).toBe(100000);
     for (i in 0 to List.length(resultArray) - 1) {
       let result = List.nth(resultArray, i);
       if (String.length(result.term) < 42) {
         expect.equal(result.term, "");
       };
-      expect.equal(List.exists((c) => String.sub(c, 0, 5) == "Some " , largeAmountOfItems), true);
-      expect.equal(Array.exists((c) => c == -1, result.positions), false);
+      expect.equal(
+        List.exists(c => String.sub(c, 0, 5) == "Some ", largeAmountOfItems),
+        true,
+      );
+      expect.equal(Array.exists(c => c == (-1), result.positions), false);
     };
   });
 

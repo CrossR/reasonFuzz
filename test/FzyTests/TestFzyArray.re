@@ -126,8 +126,14 @@ describe("Fzy [Array]: Match scores should be correct.", ({test, _}) => {
       if (String.length(result.term) < 42) {
         expect.equal(result.term, "");
       };
-      expect.equal(Array.exists((c) => String.sub(c, 0, 5) == "Some " , largeAmountOfItems), true);
-      expect.equal(Array.exists((c) => c == -1, result.positions), false);
+      expect.equal(
+        Array.exists(
+          c => String.sub(c, 0, 5) == "Some ",
+          largeAmountOfItems,
+        ),
+        true,
+      );
+      expect.equal(Array.exists(c => c == (-1), result.positions), false);
     };
   });
 

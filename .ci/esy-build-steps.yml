@@ -14,7 +14,7 @@ steps:
     displayName: 'esy build'
   - script: esy @test build
     displayName: 'esy @test build'
-  - script: esy test-ci
+  - script: esy @test test-ci
     displayName: 'esy @test test-ci'
     continueOnError: true
   - task: PublishTestResults@2
