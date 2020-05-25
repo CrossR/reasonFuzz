@@ -7,12 +7,3 @@
   (modules RunTests)
   (libraries Generic_Fuzzy_Test Path_Fuzzy_Test Fzy_Fuzzy_Test ReasonFuzzBench)
 )
-(executable
-  ; the for the library is automatically detected because of the name, but we
-  ; need to explicitly specify the package here
-  (name RunTestsCI)
-  (public_name RunTestsCI)
-  (package RunTests)
-  (modules RunTestsCI)
-  (libraries Generic_Fuzzy_Test Path_Fuzzy_Test Fzy_Fuzzy_Test ReasonFuzzBench)
-)

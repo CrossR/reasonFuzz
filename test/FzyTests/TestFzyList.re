@@ -121,9 +121,9 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     };
 
     let resultArray = fzySearchList(largeAmountOfItems, testPattern, ());
+    expect.int(List.length(resultArray)).toBe(100000);
 
     /* Check that the terms are not broken and the match positions make sense. */
-    expect.int(List.length(resultArray)).toBe(100000);
     for (i in 0 to List.length(resultArray) - 1) {
       let result = List.nth(resultArray, i);
       if (String.length(result.term) < 42) {

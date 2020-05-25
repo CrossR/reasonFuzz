@@ -119,6 +119,7 @@ describe("Fzy [Array]: Match scores should be correct.", ({test, _}) => {
     };
 
     let resultArray = fzySearchArray(largeAmountOfItems, testPattern, ());
+    expect.int(Array.length(resultArray)).toBe(100000);
 
     /* Check that the terms are not broken and the match positions make sense. */
     for (i in 0 to Array.length(resultArray) - 1) {
