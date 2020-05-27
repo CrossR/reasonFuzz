@@ -1,5 +1,5 @@
 {
-  "checksum": "6b090b4d517c4b2d9e86d5b5fcd99731",
+  "checksum": "4129e74532fd9ec5466d4524a1b7c6ea",
   "root": "reasonfuzz@link-dev:./package.json",
   "node": {
     "refmterr@3.3.2@d41d8cd9": {
@@ -34,7 +34,7 @@
       "overrides": [],
       "dependencies": [
         "refmterr@3.3.2@d41d8cd9",
-        "reason-fzy@github:CrossR/reason-fzy#802eced@d41d8cd9",
+        "reason-fzy@github:CrossR/reason-fzy#394a62e@d41d8cd9",
         "ocaml@4.9.1000@d41d8cd9", "@opam/dune@opam:2.5.1@bf0da232",
         "@esy-ocaml/reason@3.6.0@d41d8cd9"
       ],
@@ -42,13 +42,13 @@
         "ocaml@4.9.1000@d41d8cd9", "@opam/merlin@opam:3.3.4@980b49f2"
       ]
     },
-    "reason-fzy@github:CrossR/reason-fzy#802eced@d41d8cd9": {
-      "id": "reason-fzy@github:CrossR/reason-fzy#802eced@d41d8cd9",
+    "reason-fzy@github:CrossR/reason-fzy#394a62e@d41d8cd9": {
+      "id": "reason-fzy@github:CrossR/reason-fzy#394a62e@d41d8cd9",
       "name": "reason-fzy",
-      "version": "github:CrossR/reason-fzy#802eced",
+      "version": "github:CrossR/reason-fzy#394a62e",
       "source": {
         "type": "install",
-        "source": [ "github:CrossR/reason-fzy#802eced" ]
+        "source": [ "github:CrossR/reason-fzy#394a62e" ]
       },
       "overrides": [],
       "dependencies": [

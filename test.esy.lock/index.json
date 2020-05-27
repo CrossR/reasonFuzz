@@ -1,5 +1,5 @@
 {
-  "checksum": "07154328db0c54f5e5c1c14824040409",
+  "checksum": "c1fb779dcd60901231b67cb1ee5f1e7f",
   "root": "reasonfuzz@link-dev:./package.json",
   "node": {
     "reperf@1.5.0@d41d8cd9": {
@@ -54,7 +54,7 @@
       "dependencies": [
         "reperf@1.5.0@d41d8cd9", "refmterr@3.3.2@d41d8cd9",
         "reason-native-crash-utils@github:onivim/reason-native-crash-utils#ae1fd34@d41d8cd9",
-        "reason-fzy@github:CrossR/reason-fzy#802eced@d41d8cd9",
+        "reason-fzy@github:CrossR/reason-fzy#394a62e@d41d8cd9",
         "ocaml@4.9.1000@d41d8cd9", "@reason-native/rely@3.2.1@d41d8cd9",
         "@reason-native/console@0.1.0@d41d8cd9",
         "@opam/dune@opam:2.5.1@bf0da232", "@esy-ocaml/reason@3.6.0@d41d8cd9"
@@ -80,13 +80,13 @@
       ],
       "devDependencies": [ "ocaml@4.9.1000@d41d8cd9" ]
     },
-    "reason-fzy@github:CrossR/reason-fzy#802eced@d41d8cd9": {
-      "id": "reason-fzy@github:CrossR/reason-fzy#802eced@d41d8cd9",
+    "reason-fzy@github:CrossR/reason-fzy#394a62e@d41d8cd9": {
+      "id": "reason-fzy@github:CrossR/reason-fzy#394a62e@d41d8cd9",
       "name": "reason-fzy",
-      "version": "github:CrossR/reason-fzy#802eced",
+      "version": "github:CrossR/reason-fzy#394a62e",
       "source": {
         "type": "install",
-        "source": [ "github:CrossR/reason-fzy#802eced" ]
+        "source": [ "github:CrossR/reason-fzy#394a62e" ]
       },
       "overrides": [],
       "dependencies": [
