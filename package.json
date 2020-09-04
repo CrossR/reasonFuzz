@@ -5,7 +5,7 @@
   "esy": {
     "build": "refmterr dune build --root . --only-packages Matchers,ReasonFuzz -j4",
     "install": [
-      "esy-installer #{self.target_dir}/default/ReasonFuzz.install", 
+      "esy-installer #{self.target_dir}/default/ReasonFuzz.install",
       "esy-installer #{self.target_dir}/default/Matchers.install"
     ]
   },
@@ -13,14 +13,16 @@
     "format": "esy dune build @fmt --auto-promote"
   },
   "dependencies": {
-    "@opam/dune": "*",
-    "@esy-ocaml/reason": "*",
-    "ocaml": ">=4.7.0 <4.10.0",
+    "@opam/dune": "2.5.0",
+    "@opam/dune-configurator": "2.5.1",
+    "@opam/dune-private-libs": "2.5.1",
+    "@esy-ocaml/reason": "3.6.0",
+    "ocaml": "~4.7.0",
     "refmterr": "*",
-    "reason-fzy": "github:CrossR/reason-fzy#394a62e"
+    "reason-fzy": "github:CrossR/reason-fzy#ce245df"
   },
   "devDependencies": {
-    "@opam/merlin": "*",
-    "ocaml": "~4.9.0"
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#c1e51a5",
+    "ocaml": "~4.10"
   }
 }
