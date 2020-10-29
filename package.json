@@ -10,7 +10,8 @@
     ]
   },
   "scripts": {
-    "format": "esy dune build @fmt --auto-promote"
+    "format": "esy dune build @fmt --auto-promote",
+    "test": "esy @test run"
   },
   "dependencies": {
     "@opam/dune": "2.5.0",
@@ -19,7 +20,7 @@
     "@esy-ocaml/reason": "3.6.0",
     "ocaml": "~4.7.0",
     "refmterr": "*",
-    "reason-fzy": "github:CrossR/reason-fzy#ce245df"
+    "reason-fzy": "CrossR/reason-fzy#7339d4e"
   },
   "devDependencies": {
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#c1e51a5",

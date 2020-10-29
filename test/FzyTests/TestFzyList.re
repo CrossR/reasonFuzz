@@ -34,6 +34,19 @@ describe("Fzy [List]: Match scores should be correct.", ({test, _}) => {
     expect.array(score[0].positions).toEqual([|8, 9, 10|]);
   });
 
+  test("Results are deterministic for even score", ({expect, _}) => {
+    let testString = "ab";
+    let testList = ["aba", "abb", "abc", "abd"];
+
+    let score = Array.of_list(fzySearchList(testList, testString, ()));
+
+    expect.int(Array.length(score)).toBe(4);
+    expect.string(score[0].term).toEqual("aba");
+    expect.string(score[1].term).toEqual("abb");
+    expect.string(score[2].term).toEqual("abc");
+    expect.string(score[3].term).toEqual("abd");
+  });
+
   test("Works for larger test: VSCode Test", ({expect, _}) => {
     let testPattern = "quickOpenScore";
 
