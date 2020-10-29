@@ -1,4 +1,9 @@
-let testInput = [|
+let largeAmountOfItems =
+  Array.init(1000000, i =>
+    "Some item with a long name but with index " ++ string_of_int(i)
+  );
+
+let vscodeInput = [|
   ".",
   "./product.json",
   "./tsfmt.json",

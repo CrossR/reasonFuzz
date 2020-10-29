@@ -8,11 +8,13 @@
             "esy-installer #{self.target_dir}/default/RunTests.install"
         ],
         "dependencies": {
-            "@reason-native/rely": "^3.2.1"
+            "@reason-native/rely": "^3.2.1",
+            "@reason-native/console": "^0.1.0",
+            "reason-native-crash-utils": "onivim/reason-native-crash-utils#38c8f00",
+            "reperf": "^1.5.0"
         }
     },
     "scripts": {
-        "test-ci": "esy @test x RunTestsCI",
         "run": "esy @test x RunTests"
     }
 }

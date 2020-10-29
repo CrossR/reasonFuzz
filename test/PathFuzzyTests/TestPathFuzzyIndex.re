@@ -1,15 +1,15 @@
 open TestFramework;
 open Generic_Fuzzy_Test;
-open ReasonFuzz;
+open ReasonFuzz.PathMatcher;
 
 describe("Path Index: Match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect, _}) => {
-    let result = pathIndexMatch(~line="abc", ~pattern="abx");
+    let result = fuzzyIndicies(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect, _}) => {
-    let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
+    let result = fuzzyIndicies(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
@@ -17,8 +17,8 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
-    let result1 = pathIndexMatch(~line=testList[0], ~pattern=testString);
-    let result2 = pathIndexMatch(~line=testList[1], ~pattern=testString);
+    let result1 = fuzzyIndicies(~line=testList[0], ~pattern=testString);
+    let result2 = fuzzyIndicies(~line=testList[1], ~pattern=testString);
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
@@ -43,7 +43,8 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
+    "Correctly sorts results for shortest result on file name.",
+    ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",
@@ -56,7 +57,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(testInputs) - 1) {
-      let result = pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+      let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
 
       let (score, indexes) =
         switch (result) {
@@ -77,7 +78,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test("Index match is correct", ({expect, _}) => {
-    let result = pathIndexMatch(~line="axbycz", ~pattern="abc");
+    let result = fuzzyIndicies(~line="axbycz", ~pattern="abc");
 
     let matches =
       switch (result) {
@@ -101,7 +102,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(testInputs) - 1) {
-      let result = pathIndexMatch(~line=testInputs[i], ~pattern=testPattern);
+      let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
 
       let (score, indexes) =
         switch (result) {
@@ -126,10 +127,10 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
     let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
 
-    for (i in 0 to Array.length(TestArray.testInput) - 1) {
+    for (i in 0 to Array.length(TestArray.vscodeInput) - 1) {
       let result =
-        pathIndexMatch(
-          ~line=TestArray.testInput[i],
+        fuzzyIndicies(
+          ~line=TestArray.vscodeInput[i],
           ~pattern="quickOpenScore",
         );
 
@@ -141,7 +142,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
 
       if (score > bestScore^) {
         bestScore := score;
-        bestMatch := TestArray.testInput[i];
+        bestMatch := TestArray.vscodeInput[i];
         bestMatchIndex := indexes;
       };
     };
@@ -176,7 +177,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
 
     for (i in 0 to Array.length(TestArray.oniTestInput) - 1) {
       let result =
-        pathIndexMatch(~line=TestArray.oniTestInput[i], ~pattern="token");
+        fuzzyIndicies(~line=TestArray.oniTestInput[i], ~pattern="token");
 
       let (score, indexes) =
         switch (result) {
@@ -203,7 +204,7 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
 
     for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
       let result =
-        pathIndexMatch(
+        fuzzyIndicies(
           ~line=TestArray.linuxTest[i],
           ~pattern="gpio-regulator",
         );
@@ -242,8 +243,8 @@ describe("Path Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test("Better match is picked", ({expect, _}) => {
-    let result1 = pathIndexMatch(~line="abcxyz", ~pattern="abc");
-    let result2 = pathIndexMatch(~line="abcxyz", ~pattern="acz");
+    let result1 = fuzzyIndicies(~line="abcxyz", ~pattern="abc");
+    let result2 = fuzzyIndicies(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);

@@ -8,13 +8,13 @@ jobs:
 - job: Linux
   timeoutInMinutes: 0
   pool:
-    vmImage: 'Ubuntu 16.04'
+    vmImage: 'Ubuntu 18.04'
 
   variables:
-    ESY__CACHE_INSTALL_PATH: /home/vsts/.esy/3_____________________________________________________________________/i/
+    STAGING_DIRECTORY: $(Build.StagingDirectory)
+    ESY__CACHE_INSTALL_PATH: /home/vsts/.esy/3_____________________________________________________________________/i
     ESY__CACHE_SOURCE_TARBALL_PATH: /home/vsts/.esy/source/i
-    STAGING_DIRECTORY: /home/vsts/STAGING
-    STAGING_DIRECTORY_UNIX: /home/vsts/STAGING
+    # ESY__NPM_ROOT: /opt/hostedtoolcache/node/8.14.0/x64/lib/node_modules/esy
 
   steps:
   - template: .ci/restore-build-cache.yml
@@ -24,13 +24,13 @@ jobs:
 - job: MacOS
   timeoutInMinutes: 0
   pool:
-    vmImage: 'macOS 10.13'
+    vmImage: 'macOS 10.14'
 
   variables:
+    STAGING_DIRECTORY: $(Build.StagingDirectory)
     ESY__CACHE_INSTALL_PATH: /Users/runner/.esy/3__________________________________________________________________/i
     ESY__CACHE_SOURCE_TARBALL_PATH: /Users/runner/.esy/source/i
-    STAGING_DIRECTORY: /Users/vsts/STAGING
-    STAGING_DIRECTORY_UNIX: /Users/vsts/STAGING
+    # ESY__NPM_ROOT: /usr/local/lib/node_modules/esy
 
   steps:
   - template: .ci/restore-build-cache.yml
@@ -43,10 +43,10 @@ jobs:
     vmImage: 'vs2017-win2016'
 
   variables:
-    ESY__CACHE_INSTALL_PATH: C:\\Users\\VssAdministrator\\.esy\\3_\\i
-    ESY__CACHE_SOURCE_TARBALL_PATH: C:\\Users\\VssAdministrator\\.esy\\source\\i
-    STAGING_DIRECTORY: C:\\Users\\VssAdministrator\\STAGING
-    STAGING_DIRECTORY_UNIX: /C/Users/VssAdministrator/STAGING
+    STAGING_DIRECTORY: $(Build.StagingDirectory)
+    ESY__CACHE_INSTALL_PATH: /C/Users/VssAdministrator/.esy/3_/i
+    ESY__CACHE_SOURCE_TARBALL_PATH: /C/Users/VssAdministrator/.esy/source/i
+    # ESY__NPM_ROOT: /C/npm/prefix/node_modules/esy
 
   steps:
   - template: .ci/restore-build-cache.yml

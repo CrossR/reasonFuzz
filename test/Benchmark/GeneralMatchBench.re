@@ -1,10 +1,11 @@
 open BenchFramework;
 open Generic_Fuzzy_Test;
+open ReasonFuzz.GeneralMatcher;
 
 let setup = () => ();
 
 let benchSingleMatch = () => {
-  let _ = ReasonFuzz.generalIndexMatch(~line="axbycz", ~pattern="abc");
+  let _ = fuzzyIndicies(~line="axbycz", ~pattern="abc");
   ();
 };
 
@@ -16,81 +17,32 @@ let benchBasic = () => {
     "packages/core/test/oni/main.tex",
   |];
 
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
   for (i in 0 to Array.length(testInputs) - 1) {
-    let result =
-      ReasonFuzz.generalIndexMatch(~line=testInputs[i], ~pattern=testPattern);
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := testInputs[i];
-      bestMatchIndex := indexes;
-    };
+    let _ = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
+    ();
   };
 
   ();
 };
 
 let benchVSCodeSearch = () => {
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
-  for (i in 0 to Array.length(TestArray.testInput) - 1) {
-    let result =
-      ReasonFuzz.generalIndexMatch(
-        ~line=TestArray.testInput[i],
+  for (i in 0 to Array.length(TestArray.vscodeInput) - 1) {
+    let _ =
+      fuzzyIndicies(
+        ~line=TestArray.vscodeInput[i],
         ~pattern="quickOpenScore",
       );
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := TestArray.testInput[i];
-      bestMatchIndex := indexes;
-    };
+    ();
   };
 
   ();
 };
 
 let benchLinuxSearch = () => {
-  let bestMatch = ref("");
-  let bestScore = ref(min_int);
-  let bestMatchIndex = ref([||]);
-
   for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
-    let result =
-      ReasonFuzz.generalIndexMatch(
-        ~line=TestArray.linuxTest[i],
-        ~pattern="gpio-regulator",
-      );
-
-    let (score, indexes) =
-      switch (result) {
-      | Some(match) => (match.score, match.indicies)
-      | None => ((-1), [||])
-      };
-
-    if (score > bestScore^) {
-      bestScore := score;
-      bestMatch := TestArray.linuxTest[i];
-      bestMatchIndex := indexes;
-    };
+    let _ =
+      fuzzyIndicies(~line=TestArray.linuxTest[i], ~pattern="gpio-regulator");
+    ();
   };
 
   ();
@@ -99,28 +51,22 @@ let benchLinuxSearch = () => {
 let options = Reperf.Options.create(~iterations=1, ());
 
 bench(
-  ~name="General Index: Single Bench",
+  ~name="General: Single Bench",
   ~options,
   ~setup,
   ~f=benchSingleMatch,
   (),
 );
+bench(~name="General: Basic Bench", ~options, ~setup, ~f=benchBasic, ());
 bench(
-  ~name="General Index: Basic Bench",
-  ~options,
-  ~setup,
-  ~f=benchBasic,
-  (),
-);
-bench(
-  ~name="General Index: VSCode Bench",
+  ~name="General: VSCode Bench",
   ~options,
   ~setup,
   ~f=benchVSCodeSearch,
   (),
 );
 bench(
-  ~name="General Index: Linux Bench",
+  ~name="General: Linux Bench",
   ~options,
   ~setup,
   ~f=benchLinuxSearch,

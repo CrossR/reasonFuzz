@@ -2,5 +2,5 @@
     (name ReasonFuzzBench)
     (library_flags (-linkall -g))
     (modules (:standard))
-    (libraries reperf.lib ReasonFuzz Generic_Fuzzy_Test)
+    (libraries reperf.lib ReasonFuzz Generic_Fuzzy_Test Fzy)
 )

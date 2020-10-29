@@ -1,13 +1,14 @@
 open TestFramework;
+open ReasonFuzz.GeneralMatcher;
 
 describe("General Index: Match scores should be correct.", ({test, _}) => {
   test("Doesn't match index when not possible", ({expect, _}) => {
-    let result = ReasonFuzz.generalIndexMatch(~line="abc", ~pattern="abx");
+    let result = fuzzyIndicies(~line="abc", ~pattern="abx");
     expect.equal(result, None);
   });
 
   test("Does match when possible", ({expect, _}) => {
-    let result = ReasonFuzz.generalIndexMatch(~line="axbycz", ~pattern="abc");
+    let result = fuzzyIndicies(~line="axbycz", ~pattern="abc");
     expect.notEqual(result, None);
   });
 
@@ -15,10 +16,8 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
     let testString = "SRC";
     let testList = [|"browser/src/index.ts", "browser/SRC/index.ts"|];
 
-    let result1 =
-      ReasonFuzz.generalIndexMatch(~line=testList[0], ~pattern=testString);
-    let result2 =
-      ReasonFuzz.generalIndexMatch(~line=testList[1], ~pattern=testString);
+    let result1 = fuzzyIndicies(~line=testList[0], ~pattern=testString);
+    let result2 = fuzzyIndicies(~line=testList[1], ~pattern=testString);
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
@@ -43,7 +42,8 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test(
-    "Correctly sorts results for shortest result on file name.", ({expect, _}) => {
+    "Correctly sorts results for shortest result on file name.",
+    ({expect, _}) => {
     let testPattern = "main";
     let testInputs = [|
       "packages/core/src/main.tex",
@@ -56,11 +56,7 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(testInputs) - 1) {
-      let result =
-        ReasonFuzz.generalIndexMatch(
-          ~line=testInputs[i],
-          ~pattern=testPattern,
-        );
+      let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
 
       let (score, indexes) =
         switch (result) {
@@ -81,7 +77,7 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test("Index match is correct", ({expect, _}) => {
-    let result = ReasonFuzz.generalIndexMatch(~line="axbycz", ~pattern="abc");
+    let result = fuzzyIndicies(~line="axbycz", ~pattern="abc");
 
     let matches =
       switch (result) {
@@ -105,11 +101,7 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
     let bestMatchIndex = ref([||]);
 
     for (i in 0 to Array.length(testInputs) - 1) {
-      let result =
-        ReasonFuzz.generalIndexMatch(
-          ~line=testInputs[i],
-          ~pattern=testPattern,
-        );
+      let result = fuzzyIndicies(~line=testInputs[i], ~pattern=testPattern);
 
       let (score, indexes) =
         switch (result) {
@@ -134,10 +126,10 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
     let bestScore = ref(min_int);
     let bestMatchIndex = ref([||]);
 
-    for (i in 0 to Array.length(TestArray.testInput) - 1) {
+    for (i in 0 to Array.length(TestArray.vscodeInput) - 1) {
       let result =
-        ReasonFuzz.generalIndexMatch(
-          ~line=TestArray.testInput[i],
+        fuzzyIndicies(
+          ~line=TestArray.vscodeInput[i],
           ~pattern="quickOpenScore",
         );
 
@@ -149,7 +141,7 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
 
       if (score > bestScore^) {
         bestScore := score;
-        bestMatch := TestArray.testInput[i];
+        bestMatch := TestArray.vscodeInput[i];
         bestMatchIndex := indexes;
       };
     };
@@ -184,7 +176,7 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
 
     for (i in 0 to Array.length(TestArray.linuxTest) - 1) {
       let result =
-        ReasonFuzz.generalIndexMatch(
+        fuzzyIndicies(
           ~line=TestArray.linuxTest[i],
           ~pattern="gpio-regulator",
         );
@@ -223,10 +215,8 @@ describe("General Index: Match scores should be correct.", ({test, _}) => {
   });
 
   test("Better match is picked", ({expect, _}) => {
-    let result1 =
-      ReasonFuzz.generalIndexMatch(~line="abcxyz", ~pattern="abc");
-    let result2 =
-      ReasonFuzz.generalIndexMatch(~line="abcxyz", ~pattern="acz");
+    let result1 = fuzzyIndicies(~line="abcxyz", ~pattern="abc");
+    let result2 = fuzzyIndicies(~line="abcxyz", ~pattern="acz");
 
     expect.notEqual(result1, None);
     expect.notEqual(result2, None);
