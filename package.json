@@ -17,13 +17,13 @@
     "@opam/dune": "2.5.0",
     "@opam/dune-configurator": "2.5.1",
     "@opam/dune-private-libs": "2.5.1",
-    "@esy-ocaml/reason": "3.6.0",
-    "ocaml": "~4.7.0",
+    "@opam/reason": "^3.6.0",
+    "ocaml": "4.10.0",
     "refmterr": "*",
     "reason-fzy": "CrossR/reason-fzy#7339d4e"
   },
   "devDependencies": {
     "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam#c1e51a5",
-    "ocaml": "~4.10"
+    "ocaml": "4.10.0"
   }
 }

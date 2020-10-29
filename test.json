@@ -11,7 +11,7 @@
             "@reason-native/rely": "^3.2.1",
             "@reason-native/console": "^0.1.0",
             "reason-native-crash-utils": "onivim/reason-native-crash-utils#38c8f00",
-            "reperf": "^1.4.0"
+            "reperf": "^1.5.0"
         }
     },
     "scripts": {
